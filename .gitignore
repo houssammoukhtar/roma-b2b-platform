@@ -1,0 +1,23 @@
+# Roma B2B: never commit secrets, data or runtime caches
+.env
+.env.*
+!.env.example
+config/
+storage/
+backups/
+backup/
+*.sql
+*.sqlite
+*.sqlite3
+*.bak
+*.backup
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.log
+.DS_Store
+node_modules/
+vendor/
+.idea/
+.vscode/
