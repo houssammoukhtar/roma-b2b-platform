@@ -1,0 +1,14 @@
+Options -Indexes
+DirectoryIndex index.html index.php
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule (^|/)\.git(/|$) - [F,L,NC]
+</IfModule>
+<FilesMatch "^(\.gitignore|\.env|README\.md|composer\.(json|lock)|package(-lock)?\.json)$">
+Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
