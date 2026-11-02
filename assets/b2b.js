@@ -12,7 +12,7 @@ function translate(){
 root.lang=lang;root.dir=lang==='ar'?'rtl':'ltr';
 $$('[data-ar][data-en]').forEach(el=>{el.textContent=el.dataset[safeLang()];});
 $$('[data-placeholder-ar][data-placeholder-en]').forEach(el=>{el.placeholder=el.dataset['placeholder'+(lang==='ar'?'Ar':'En')];});
-$$('[data-lang-link]').forEach(el=>{const u=new URL(el.getAttribute('data-lang-link'),location.origin);if(!el.hasAttribute('data-no-query'))u.searchParams.set('lang',lang);el.href=u.pathname+u.search+u.hash;});
+$$('[data-lang-link]').forEach(el=>{const u=new URL(el.getAttribute('data-lang-link'),location.href);if(!el.hasAttribute('data-no-query'))u.searchParams.set('lang',lang);el.href=u.pathname+u.search+u.hash;});
 $$('[data-portal-link]').forEach(el=>el.href='/portal.php?lang='+lang+'#login');
 $$('[data-lang-button]').forEach(el=>el.textContent=lang==='ar'?'EN':'عربي');
 document.title=location.pathname.includes('apply')?(lang==='ar'?'طلب فتح حساب أعمال | مجموعة روما التجارية':'Apply for a business account | Roma Group'):(lang==='ar'?'روما للأعمال | حلول التوريد والشراكات التجارية':'Roma for Business | Wholesale and supply solutions');
