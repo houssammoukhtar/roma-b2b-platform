@@ -46,6 +46,16 @@ function b2bMoney(mixed $v):string {
     requireThat(is_numeric($s) && (float)$s>0 && (float)$s<=100000000,'invalid_amount');
     return $s;
 }
+function b2bDigits(mixed $input,int $length,string $error,bool $endWithThree=false):string {
+    $raw=b2bValue($input??'',$length*4,true);
+    $raw=strtr($raw,['٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9','۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9']);
+    requireThat(preg_match('/^[0-9]{'.$length.'}$/D',$raw)===1 && (!$endWithThree || str_ends_with($raw,'3')),$error,422);
+    return $raw;
+}
+function b2bOptionalPostal(mixed $input):string {
+    $v=trim((string)($input??''));
+    return $v===''?'':b2bDigits($v,5,'invalid_postal_code');
+}
 function b2bCoordinate(mixed $v,bool $latitude):string {
     $s=b2bValue($v??'',24);
     if($s==='')return '';
@@ -69,7 +79,8 @@ function b2bSanitizeApplication(array $raw):array {
     $purchasing=b2bObj($raw['purchasing']??[]);
     $people=b2bObj($raw['people']??[]);
     $company=b2bValue($legal['company']??'',150,true);
-    $registration=b2bValue($legal['registration']??'',80,true);
+    $registration=b2bDigits($legal['registration']??'',10,'invalid_registration');
+    $vat=b2bDigits($legal['vat']??'',15,'invalid_vat',true);
     $sector=b2bValue($legal['sector']??'',80,true);
     requireThat(in_array($sector,['retail','hospitality','distribution','other'],true),'invalid_input');
     $name=b2bValue($owner['name']??'',150,true);
@@ -79,6 +90,8 @@ function b2bSanitizeApplication(array $raw):array {
     requireThat($email===strtolower(b2bValue($owner['email_confirmation']??'',200,true)),'email_mismatch');
     $city=b2bValue($location['city']??'',100,true);
     $address=b2bValue($location['address']??'',1000,true);
+    $building=b2bDigits($location['building_number']??'',4,'invalid_building_number');
+    $postal=b2bDigits($location['postal_code']??'',5,'invalid_postal_code');
     $branchItems=[];
     foreach(b2bArray($location['branches']??[],12) as $branch) {
        $branch=b2bObj($branch);
@@ -86,7 +99,7 @@ function b2bSanitizeApplication(array $raw):array {
           'name'=>b2bText($branch['name']??'',120),
           'city'=>b2bText($branch['city']??'',100),
           'address'=>b2bText($branch['address']??'',600),
-          'postal_code'=>b2bText($branch['postal_code']??'',20),
+          'postal_code'=>b2bOptionalPostal($branch['postal_code']??''),
           'latitude'=>b2bText($branch['latitude']??'',24),
           'longitude'=>b2bText($branch['longitude']??'',24),
        ];
@@ -108,7 +121,7 @@ function b2bSanitizeApplication(array $raw):array {
            'issue_region'=>b2bText($legal['issue_region']??'',120),
            'civil_number'=>b2bText($legal['civil_number']??'',80),
            'expiry_date'=>b2bOptionalDate($legal['expiry_date']??''),
-           'vat'=>b2bText($legal['vat']??'',80),
+           'vat'=>$vat,
        ],
        'owner'=>[
            'name'=>$name,'phone'=>$phone,'email'=>$email,
@@ -117,7 +130,7 @@ function b2bSanitizeApplication(array $raw):array {
        'location'=>[
            'city'=>$city,'address'=>$address,
            'street'=>b2bText($location['street']??'',120),
-           'postal_code'=>b2bText($location['postal_code']??'',20),
+           'postal_code'=>$postal,'building_number'=>$building,
            'unified_national_number'=>b2bText($location['unified_national_number']??'',80),
            'latitude'=>b2bCoordinate($location['latitude']??'',true),
            'longitude'=>b2bCoordinate($location['longitude']??'',false),
@@ -193,6 +206,8 @@ function b2bSummary(array $r):array {
       'type'=>$r['account_type'],'status'=>$r['status'],
       'created_at'=>$r['created_at'],'updated_at'=>$r['updated_at'],
       'documents_count'=>count($r['documents']??[]),
+      'customer_code'=>$r['accounting']['customer_code']??null,
+      'approved_credit_limit'=>$r['approved_credit_limit']??null,
     ];
 }
 function b2bHandleStart(array &$db,array $in):array {
@@ -236,7 +251,7 @@ function b2bHandleStart(array &$db,array $in):array {
     b2bAudit($db,$appId,$u['id'],'draft_created',['type'=>$data['account_type']]);
     return ['ok'=>true,'application'=>b2bSummary($db['b2b_applications'][$appId]),'new_account'=>$newAccount];
 }
-function b2bValidateFile(array $file):array {
+function b2bValidateFile(array $file,string $slot):array {
     requireThat(($file['error']??UPLOAD_ERR_NO_FILE)===UPLOAD_ERR_OK,'upload_failed',422);
     $size=(int)($file['size']??0);
     requireThat($size>32 && $size<=5242880,'file_too_large',413);
@@ -245,13 +260,33 @@ function b2bValidateFile(array $file):array {
     $data=file_get_contents($tmp);
     requireThat(is_string($data)&&strlen($data)===$size,'invalid_file');
     $mime=(new finfo(FILEINFO_MIME_TYPE))->buffer($data);
-    requireThat(in_array($mime,['image/jpeg','image/png','image/webp','application/pdf'],true),'invalid_file');
-    if(str_starts_with($mime,'image/')){
-       $img=@getimagesizefromstring($data);
-       requireThat($img!==false && $img[0]>0 && $img[1]>0 && $img[0]<=8000 && $img[1]<=8000 && $img[0]*$img[1]<=24000000,'invalid_file');
-    }else{
-       requireThat(str_starts_with($data,'%PDF-'),'invalid_file');
+    $name=(string)($file['name']??'');
+    if($mime==='application/pdf'&&str_starts_with($data,'%PDF-')&&preg_match('/\.pdf$/iD',$name)===1){
+      return ['bytes'=>$data,'mime'=>'application/pdf'];
     }
+    $photoSlots=['store_sign','store_inside_1','store_inside_2','store_outside'];
+    requireThat(in_array($slot,$photoSlots,true),'invalid_file',422);
+    $formats=[
+      'image/jpeg'=>['jpg','jpeg'],
+      'image/png'=>['png'],
+      'image/webp'=>['webp'],
+      'image/gif'=>['gif'],
+      'image/heic'=>['heic'],
+      'image/heif'=>['heif','heic']
+    ];
+    if(in_array($mime,['image/heic','image/heif','application/octet-stream'],true)
+       && substr($data,4,4)==='ftyp'
+       && in_array(substr($data,8,4),['heic','heix','hevc','hevx','mif1','msf1','heif'],true)
+       && preg_match('/\.(heic|heif)$/iD',$name)===1){
+       return ['bytes'=>$data,'mime'=>str_ends_with(strtolower($name),'.heif')?'image/heif':'image/heic'];
+    }
+    requireThat(isset($formats[$mime]),'invalid_file',422);
+    $ext=strtolower((string)pathinfo($name,PATHINFO_EXTENSION));
+    requireThat(in_array($ext,$formats[$mime],true),'invalid_file',422);
+    $dimensions=@getimagesizefromstring($data);
+    requireThat($dimensions!==false&&$dimensions[0]>0&&$dimensions[1]>0
+      &&$dimensions[0]<=8000&&$dimensions[1]<=8000
+      &&$dimensions[0]*$dimensions[1]<=24000000,'invalid_file',422);
     return ['bytes'=>$data,'mime'=>$mime];
 }
 function b2bDocSlot(string $slot):bool {
@@ -259,7 +294,7 @@ function b2bDocSlot(string $slot):bool {
       'commercial_register','civil_register','municipal_license','national_address',
       'vat_registration','chamber_certificate','owner_identity',
       'store_sign','store_inside_1','store_inside_2','store_outside',
-      'signed_agreement','additional_document'
+      'signed_agreement','electronic_promissory_note','additional_document'
     ];
     return in_array($slot,$fixed,true) || preg_match('/^(account_holder|purchaser|receiver|accountant)_identity_(?:[0-9]|1[0-4])$/D',$slot)===1;
 }
@@ -268,9 +303,10 @@ function b2bHandleUpload(array &$db,string $slot,array $file):array {
     $record=b2bRecord($db,$id);
     requireThat(in_array($record['status'],['draft_documents','changes_requested','approved_pending_signature'],true),'upload_closed',409);
     requireThat(b2bDocSlot($slot),'invalid_document_slot');
-    if($record['status']==='approved_pending_signature')requireThat($slot==='signed_agreement','upload_closed',409);
+    if($record['status']==='approved_pending_signature')requireThat(in_array($slot,['signed_agreement','electronic_promissory_note'],true),'upload_closed',409);
+    if($slot==='electronic_promissory_note')requireThat($record['account_type']==='credit' && $record['status']==='approved_pending_signature','upload_closed',409);
     requireThat(count($record['documents'])<32||isset($record['documents'][$slot]),'too_many_documents');
-    $validated=b2bValidateFile($file);
+    $validated=b2bValidateFile($file,$slot);
     $docId=saveDocument($db,$validated,$u['id'],'b2b_'.$slot);
     $db['b2b_applications'][$id]['documents'][$slot]=[
       'id'=>$docId,'mime'=>$validated['mime'],'name'=>b2bValue($file['name']??'document',160),'uploaded_at'=>gmdate(DATE_ATOM)
@@ -281,10 +317,13 @@ function b2bHandleUpload(array &$db,string $slot,array $file):array {
 function b2bSubmit(array &$db):array {
     $u=auth($db,['customer']);$id=$db['b2b_application_by_user'][$u['id']]??'';
     $record=b2bRecord($db,$id);requireThat(in_array($record['status'],['draft_documents','changes_requested'],true),'invalid_transition',409);
-    if($record['account_type']==='credit'){
-      foreach(['commercial_register','owner_identity','national_address'] as $required){
-          requireThat(isset($record['documents'][$required]),'missing_required_documents');
-      }
+    $required=['commercial_register','vat_registration','municipal_license','national_address','store_sign'];
+    if($record['account_type']==='credit')$required[]='owner_identity';
+    foreach($required as $slot){
+      requireThat(isset($record['documents'][$slot]),'missing_required_documents');
+      $mime=(string)($record['documents'][$slot]['mime']??'');
+      if($slot==='store_sign')requireThat(in_array($mime,['application/pdf','image/jpeg','image/png','image/webp','image/gif','image/heic','image/heif'],true),'invalid_file');
+      else requireThat($mime==='application/pdf','invalid_file');
     }
     $db['b2b_applications'][$id]['status']='submitted';
     $db['b2b_applications'][$id]['review_note']='';
@@ -307,20 +346,50 @@ function b2bDecision(array &$db,array $in):array {
        if($decision==='request_changes'){requireThat(in_array($status,['submitted','under_review','signed_submitted'],true),'invalid_transition');requireThat(mb_strlen($reason,'UTF-8')>=8,'reason_required');$next='changes_requested';}
        if($decision==='reject'){requireThat(in_array($status,['submitted','under_review','signed_submitted'],true),'invalid_transition');requireThat(mb_strlen($reason,'UTF-8')>=8,'reason_required');$next='rejected';}
        if($decision==='approve'){requireThat(in_array($status,['submitted','under_review'],true),'invalid_transition');
+          if($record['account_type']==='credit'){
+             requireThat(isset($in['approved_credit_limit']) && (string)$in['approved_credit_limit']!=='','approved_credit_limit_required');
+             $limit=b2bMoney($in['approved_credit_limit']);
+             $db['b2b_applications'][$id]['approved_credit_limit']=$limit;
+          }
           $next=$record['account_type']==='credit'?'approved_pending_signature':'accounting_pending';
        }
     }elseif($decision==='send_to_accounting'){
        requireThat(in_array($role,['admin','reviewer'],true),'forbidden',403);
-       requireThat($status==='signed_submitted','invalid_transition');$next='accounting_pending';
+       requireThat($status==='signed_submitted','invalid_transition');
+       requireThat(isset($record['documents']['electronic_promissory_note']),'promissory_note_required');
+       requireThat(($record['documents']['electronic_promissory_note']['mime']??'')==='application/pdf','invalid_file');
+       requireThat(($in['promissory_verified']??false)===true,'promissory_verification_required');
+       $approved=(string)($record['approved_credit_limit']??'');
+       requireThat($approved!=='','approved_credit_limit_required');
+       requireThat(isset($in['promissory_amount'])&&$in['promissory_amount']!=='','promissory_amount_required');
+       requireThat((int)round((float)b2bMoney($in['promissory_amount'])*100)===(int)round((float)$approved*100),'promissory_limit_mismatch');
+       $db['b2b_applications'][$id]['promissory_verified_at']=gmdate(DATE_ATOM);
+       $db['b2b_applications'][$id]['promissory_verified_by']=$u['id'];
+       $next='accounting_pending';
     }elseif($decision==='activate'){
        requireThat(in_array($role,['admin','accountant'],true),'forbidden',403);
        requireThat($status==='accounting_pending','invalid_transition');
        $account=b2bObj($in['accounting']??[]);
        $code=b2bValue($account['customer_code']??'',100,true);
+       foreach($db['b2b_applications']??[] as $existing){
+         if(($existing['id']??'')!==$id && ($existing['status']??'')==='active' && ($existing['accounting']['customer_code']??null)===$code)throw new AppError('duplicate_customer_code',409);
+       }
+       if($record['account_type']==='credit'){
+         requireThat(!empty($record['approved_credit_limit']) && isset($record['documents']['electronic_promissory_note']) && !empty($record['promissory_verified_at']),'promissory_verification_required');
+       }
        $representative=b2bValue($account['representative']??'',150,true);
        $supplier=b2bText($account['supplier']??'',150);
        $notes=b2bText($account['notes']??'',1000);
        $db['b2b_applications'][$id]['accounting']=['customer_code'=>$code,'representative'=>$representative,'supplier'=>$supplier,'notes'=>$notes];
+       $indexed=[];
+       foreach($db['b2b_applications'][$id]['documents'] as $slot=>$entry){
+          $docId=(string)($entry['id']??'');
+          if($docId==='' || !isset($db['documents'][$docId]))continue;
+          $db['documents'][$docId]['customer_code']=$code;
+          $db['b2b_applications'][$id]['documents'][$slot]['customer_code']=$code;
+          $indexed[$slot]=$docId;
+       }
+       $db['b2b_customer_document_index'][$code]=['application'=>$id,'user_id'=>$record['user_id'],'documents'=>$indexed,'linked_at'=>gmdate(DATE_ATOM)];
        $next='active';
        $db['users'][$record['user_id']]['status']='approved';
        $db['users'][$record['user_id']]['decision_at']=now();
@@ -367,7 +436,7 @@ try{
             $u=user($db);
             return ['ok'=>true,'csrf'=>$_SESSION['csrf'],'authenticated'=>$u!==null,
              'user'=>$u?['name'=>$u['name'],'email'=>$u['email'],'role'=>$u['role'],'status'=>$u['status']]:null,
-             'staff_role'=>$u?b2bRole($db):null,'version'=>'b2b-flow-1.0'];
+             'staff_role'=>$u?b2bRole($db):null,'version'=>'b2b-flow-1.1-cash-credit-pdf'];
         },false);
      }elseif($action==='my'){
         $result=transaction(function($db){$app=b2bGetMine($db);return ['ok'=>true,'application'=>$app];},false);
@@ -386,7 +455,7 @@ try{
            $d=$db['documents'][$docId]??null;requireThat(is_array($d),'not_found',404);
            return $d;
         },false);
-        $ext=['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp','application/pdf'=>'pdf'][$doc['mime']]??'bin';
+        $ext=['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp','image/gif'=>'gif','image/heic'=>'heic','image/heif'=>'heif','application/pdf'=>'pdf'][$doc['mime']]??'bin';
         $path=config()['dir'].'/'.$doc['id'].'.php';requireThat(is_file($path),'not_found',404);
         header('Content-Type: '.$doc['mime']);
         header('Content-Disposition: attachment; filename="'.preg_replace('/[^A-Za-z0-9-]/','',$doc['id']).'.'.$ext.'"');
@@ -418,7 +487,10 @@ try{
            $u=auth($db,['customer']);$id=$db['b2b_application_by_user'][$u['id']]??'';
            $app=b2bRecord($db,$id);
            requireThat($app['status']==='approved_pending_signature','invalid_transition');
-           requireThat(isset($app['documents']['signed_agreement']),'signed_document_required');
+           requireThat($app['account_type']==='credit','invalid_transition',409);
+           requireThat(!empty($app['approved_credit_limit']),'approved_credit_limit_required');
+           requireThat(isset($app['documents']['electronic_promissory_note']),'promissory_note_required');
+           requireThat(($app['documents']['electronic_promissory_note']['mime']??'')==='application/pdf','invalid_file');
            $db['b2b_applications'][$id]['status']='signed_submitted';
            b2bAudit($db,$id,$u['id'],'signed_documents_submitted');
            b2bQueueNotification($db,$id,'signed_received','تم استلام المستندات الموقعة للمراجعة.');
