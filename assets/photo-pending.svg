@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-label="صورة الصنف غير متوفرة">
+<defs><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6faf5"/><stop offset="1" stop-color="#e9f3e9"/></linearGradient></defs>
+<rect width="600" height="600" rx="32" fill="url(#paper)"/>
+<rect x="65" y="65" width="470" height="470" rx="30" fill="#fff" stroke="#deeadf" stroke-width="3" stroke-dasharray="8 12"/>
+<g fill="none" stroke="#388b61" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+<path d="m226 233 74-42 74 42v90l-74 42-74-42z"/>
+<path d="m226 233 74 42 74-42M300 275v90"/>
+</g>
+<path d="M300 190v88" stroke="#a6d4b5" stroke-width="9" stroke-linecap="round"/>
+<text x="300" y="423" text-anchor="middle" fill="#1c5a3b" font-size="30" font-weight="700" font-family="Tahoma,Arial,sans-serif">صورة المنتج قيد التحديث</text>
+<text x="300" y="466" text-anchor="middle" fill="#668570" font-size="20" font-family="Arial,sans-serif">ROMA GROUP · WHOLESALE CATALOG</text>
+</svg>
