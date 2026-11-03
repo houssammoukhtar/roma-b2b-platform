@@ -1,0 +1,44 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مراجعة طلبات الأعمال | Roma Group</title><meta name="robots" content="noindex,nofollow"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/b2b.css?v=20261103-v3"><link rel="stylesheet" href="assets/b2b-flow.css?v=20261103-v4"><script src="assets/b2b-locale.js?v=20261103-v3" defer></script><script src="assets/b2b.js?v=20261103-v3" defer></script><script src="assets/b2b-workflow.js?v=20261103-v4" defer></script></head>
+<body data-page="review" class="application-page">
+<div class="mini-top"><div class="container mini-inner"><span>ROMA GROUP · B2B REVIEW CENTER</span><a href="tel:+966920013312" dir="ltr">+966 9200 13312</a></div></div>
+<header class="site-header"><div class="container header-inner"><a href="index.html" class="brand-home"><img src="/assets.7903/branding/roma-group-logo.png" alt="Roma Trading Group"><span class="brand-divider"></span><span class="brand-side"><b>الأعمال</b><small>REVIEW DESK</small></span></a><div class="header-actions"><a class="login-link" href="status.html">متابعة طلب عميل</a><a href="/portal.php?lang=ar#login" class="btn btn-main header-cta">تسجيل الدخول</a></div></div></header>
+<main class="apply-background"><div class="container">
+<div class="apply-card flow-card">
+<div class="kicker">ACCOUNT MANAGEMENT / REVIEW & ACCOUNTING</div><h1 style="font-size:32px;margin:14px 0">لوحة مراجعة حسابات روما B2B</h1><p class="flow-description">لا تظهر الطلبات وبيانات الهويات إلا لصاحب صلاحية مراجعة معتمد. كل قرار يُحفظ في سجل المراجعة.</p>
+<div id="workflowPreview" class="flow-banner">نسخة المعاينة: مراجعة الطلبات ورفع المستندات لا تعمل حتى نشر واختبار خدمة الحسابات الآمنة.</div><div id="reviewLoading" class="flow-status-box" role="status">جاري التحقق من صلاحية الدخول...</div>
+<div id="reviewDenied" hidden class="flow-status-box error"><strong>ليس لديك صلاحية مراجعة طلبات الأعمال.</strong><p>يجب الدخول بحساب مدير روما أو حساب مراجِع مصرح له.</p><a href="/portal.php?lang=ar#login" class="btn btn-main">دخول الإدارة</a></div>
+<div id="reviewMain" hidden>
+<div class="flow-queue-warning" id="notificationWarning"></div>
+<div id="staffGrantPanel" class="flow-panel" hidden><h3>توزيع صلاحيات مراجعة الطلبات</h3><p class="flow-description">يمكن للمدير تفويض موظف لديه حساب داخلي في روما بدور مراجِع أو محاسب. لا يمكن منح صلاحية المراجعة لحساب عميل.</p><div class="form-fields"><div class="field"><label for="staffEmail">البريد الإلكتروني لموظف روما</label><input id="staffEmail" type="email" placeholder="employee@company.com"></div><div class="field"><label for="staffRole">الصلاحية</label><select id="staffRole"><option value="reviewer">مراجعة واعتماد الطلبات</option><option value="accountant">استكمال بيانات الحسابات والتفعيل</option><option value="none">إلغاء التفويض</option></select></div></div><button type="button" id="grantStaff" class="btn btn-main" style="margin-top:15px">حفظ الصلاحية</button></div>
+<div class="flow-section-head"><h2 style="font-size:22px;margin:0">الطلبات الواردة</h2><button class="flow-secondary" id="reviewRefresh" type="button">تحديث</button></div>
+<div class="form-fields" style="margin:16px 0">
+<div class="field"><label for="reviewSearch">بحث باسم المنشأة أو البريد أو رقم الطلب</label><input id="reviewSearch" placeholder="ابحث عن طلب..."></div>
+<div class="field"><label for="reviewFilter">حالة الطلب</label><select id="reviewFilter"><option value="">جميع الحالات</option><option value="submitted">بانتظار المراجعة</option><option value="under_review">قيد المراجعة</option><option value="changes_requested">يحتاج تعديل</option><option value="approved_pending_signature">بانتظار التوقيع</option><option value="signed_submitted">تم إرسال التوقيع</option><option value="accounting_pending">لدى الحسابات</option><option value="active">مفعّل</option><option value="rejected">مرفوض</option><option value="draft_documents">مسودة مستندات</option></select></div>
+</div>
+<div class="flow-wrap-scroll"><table class="flow-table"><thead><tr><th>رقم الطلب</th><th>المنشأة</th><th>النوع</th><th>الحالة</th><th>التحديث</th><th>مراجعة</th></tr></thead><tbody id="reviewRows"><tr><td colspan="6">لا توجد بيانات.</td></tr></tbody></table></div>
+<div id="reviewDetail" class="flow-panel" hidden>
+<div class="flow-section-head"><h2 id="detailTitle" style="font-size:23px;margin:0"></h2><button type="button" id="detailClose" class="flow-secondary">إغلاق</button></div>
+<div class="flow-detail-grid" id="detailOverview"></div>
+<div class="flow-panel"><h3>البيانات التفصيلية</h3><div id="detailData" class="flow-review-grid"></div></div>
+<div class="flow-panel"><h3>المستندات المحمية</h3><div id="detailDocuments" class="flow-doc-list"></div></div>
+<div class="flow-panel"><h3>سجل الإجراءات</h3><div id="detailTimeline" class="flow-timeline"></div></div>
+<div class="flow-panel" id="decisionPanel"><h3>قرار المراجعة</h3>
+<div class="field full"><label for="decisionNote">سبب الرفض أو الملاحظة المطلوبة من العميل</label><textarea id="decisionNote" rows="3" placeholder="اكتب سببًا واضحًا للحالة..."></textarea></div>
+<div class="flow-actions-inline">
+<button type="button" class="btn btn-outline-dark" data-decision="begin_review">بدء المراجعة</button>
+<button type="button" class="btn btn-outline-dark" data-decision="request_changes">طلب تعديلات</button>
+<button type="button" class="btn btn-outline-dark" data-decision="reject">رفض مع السبب</button>
+<button type="button" class="btn btn-main" data-decision="approve">موافقة مبدئية</button>
+<button type="button" class="btn btn-main" data-decision="send_to_accounting">إرسال للحسابات</button>
+</div>
+</div>
+<div class="flow-panel" id="accountingPanel"><h3>استكمال الحساب التجاري</h3><p class="flow-description">لا يتم تفعيل العميل للشراء إلا بعد إنهاء الخطوات المالية واعتماد بيانات الحساب.</p>
+<div class="form-fields">
+<div class="field"><label for="accountCustomerCode">كود العميل التجاري *</label><input id="accountCustomerCode" maxlength="100"></div>
+<div class="field"><label for="accountRepresentative">المسؤول عن الحساب *</label><input id="accountRepresentative" maxlength="150"></div>
+<div class="field"><label for="accountSupplier">اسم المورد / المصدر</label><input id="accountSupplier" maxlength="150"></div>
+<div class="field"><label for="accountNotes">ملاحظات الحسابات</label><textarea id="accountNotes" maxlength="1000"></textarea></div>
+</div><div class="flow-actions-inline"><button type="button" class="btn btn-main" data-decision="activate">اعتماد وتفعيل الحساب</button></div></div>
+</div></div>
+<div id="reviewError" class="form-error" role="alert"></div>
+</div></div></main><footer class="site-footer"><div class="container footer-bottom"><span>© 2026 ROMA TRADING GROUP</span><a href="index.html">الرئيسية</a><span>مركز مراجعة الأعمال</span></div></footer></body></html>
