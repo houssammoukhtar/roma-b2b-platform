@@ -17,6 +17,14 @@ function enhance(){
   document.querySelectorAll('.site-shell .main-nav a,.roma-website-nav a').forEach(a=>{
    if(a.getAttribute('href')==='/ar/')a.href='/';
   });
+  document.querySelectorAll('a').forEach(a=>{
+   const href=a.getAttribute('href')||'';
+   if(href==='#register'||/^\/portal\.php(?:\?[^#]*)?#register$/i.test(href)){
+     const lang=document.documentElement.lang||'ar';
+     a.setAttribute('href','/business/apply.html?lang='+encodeURIComponent(lang));
+     a.dataset.romaUnifiedRegister='1';
+   }
+  });
   document.querySelectorAll('.site-shell .p-media img').forEach(img=>{
    if(!img.dataset.romaImageFallback){img.dataset.romaImageFallback='1';img.addEventListener('error',()=>{
      if(!img.src.includes('photo-pending.svg')){img.src='/assets/photo-pending.svg';img.alt=(img.alt||'')+' — الصورة قيد التحديث';}
@@ -31,4 +39,10 @@ let raf=0;const observer=new MutationObserver(records=>{
  if(raf)return;raf=requestAnimationFrame(()=>{raf=0;enhance();});
 });observer.observe(document.body,{childList:true,subtree:true});
 window.addEventListener('pageshow',enhance);
+document.addEventListener('click',e=>{
+ const link=e.target.closest?.('a[data-roma-unified-register]');
+ if(!link)return;
+ e.preventDefault();e.stopImmediatePropagation();
+ window.location.assign(link.href);
+},true);
 })();
