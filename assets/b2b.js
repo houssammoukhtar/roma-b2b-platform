@@ -52,7 +52,7 @@ function applyTranslations(){
   const h=a.getAttribute("href")?.split("#")[1]||"login";
   a.href="/portal.php?lang="+lang+"#"+h;
  });
- $$("a[href$='/catalog']").forEach(a=>a.href="/"+lang+"/catalog");
+ $$("a[href$='/catalog'],[data-catalog-link]").forEach(a=>a.href="/"+lang+"/catalog");
  $$("a[href$='/privacy'],a[href$='/terms']").forEach(a=>{
   const suffix=a.getAttribute("href").endsWith("privacy")?"privacy":"terms";
   a.href="/"+lang+"/"+suffix;
