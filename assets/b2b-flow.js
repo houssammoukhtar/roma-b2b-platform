@@ -15,6 +15,26 @@ const getType=()=>$('input[name=account_type]:checked')?.value||'';
 const show=(el,yes)=>{if(el)el.hidden=!yes;};
 const errorBox=$('#flowError'),bar=$('#uploadProgressBar'),uploadBox=$('#uploadProgress'),progressText=$('#uploadProgressText');
 const flowCounter=$('#flowCounter'),progress=$('#flowProgress'),next=$('#flowNext'),back=$('#flowBack'),submit=$('#flowSubmit');
+const PHOTO_SLOTS=new Set(['store_sign','store_inside_1','store_inside_2','store_outside']);
+const isPhotoSlot=slot=>PHOTO_SLOTS.has(slot);
+const validFileExtension=(file,slot)=>isPhotoSlot(slot)?/\.(jpe?g|png|webp|gif|heic|heif|pdf)$/i.test(file.name):/\.pdf$/i.test(file.name);
+const validFileType=(file,slot)=>{
+ if(!file.type)return true;
+ const types=['image/jpeg','image/png','image/webp','image/gif','image/heic','image/heif','application/octet-stream','application/pdf','application/x-pdf'];
+ return isPhotoSlot(slot)?types.includes(file.type):['application/pdf','application/x-pdf'].includes(file.type);
+};
+async function validFileSignature(file,slot){
+ const bytes=new Uint8Array(await file.slice(0,24).arrayBuffer());
+ const str=(a,b)=>String.fromCharCode(...bytes.slice(a,b));
+ if(str(0,5)==='%PDF-')return /\.pdf$/i.test(file.name);
+ if(!isPhotoSlot(slot))return false;
+ if(/\.jpe?g$/i.test(file.name))return bytes[0]===255&&bytes[1]===216&&bytes[2]===255;
+ if(/\.png$/i.test(file.name))return [137,80,78,71,13,10,26,10].every((x,i)=>bytes[i]===x);
+ if(/\.webp$/i.test(file.name))return str(0,4)==='RIFF'&&str(8,12)==='WEBP';
+ if(/\.gif$/i.test(file.name))return ['GIF87a','GIF89a'].includes(str(0,6));
+ if(/\.(heic|heif)$/i.test(file.name))return str(4,8)==='ftyp'&&/^(heic|heix|hevc|hevx|mif1|msf1|heif)/.test(str(8,12));
+ return false;
+}
 const mapEl=$('#mapCanvas');
 let current='choose',activeSequence=[],csrf='',session=null,existingApp=null,uploaded={},busy=false,map=null,marker=null,backendAvailable=false;
 const localLang=()=>document.documentElement.lang||'ar';
@@ -25,6 +45,10 @@ const ftx=(k,fallback)=>{
 };
 const errorLabels={
   invalid_input:'البيانات المدخلة غير صالحة. راجع الحقول وأعد المحاولة.',
+  invalid_registration:'رقم السجل التجاري يجب أن يكون 10 أرقام.',
+  invalid_vat:'الرقم الضريبي يجب أن يكون 15 رقمًا وينتهي بالرقم 3.',
+  invalid_building_number:'رقم المبنى يجب أن يكون 4 أرقام.',
+  invalid_postal_code:'الرمز البريدي يجب أن يكون 5 أرقام.',
   invalid_email:'البريد الإلكتروني غير صحيح.',
   email_mismatch:'تأكيد البريد الإلكتروني غير مطابق.',
   email_exists:'البريد الإلكتروني مستخدم بالفعل. سجل الدخول لمتابعة الطلب.',
@@ -33,11 +57,11 @@ const errorLabels={
   missing_credit_details:'أكمل رقم الهوية والبيانات الوطنية للعنوان.',
   missing_purchase_details:'أكمل فئات المنتجات وقيمة المشتريات والحد الائتماني.',
   missing_authorized_people:'أضف بيانات المفوضين بالشراء والاستلام والحسابات.',
-  missing_required_documents:'مستندات مطلوبة لم ترفع. راجع السجل التجاري والعنوان الوطني وهوية صاحب الحساب.',
+  missing_required_documents:'أكمل ملفات PDF المطلوبة: السجل، الشهادة الضريبية، الرخصة، العنوان الوطني وصورة الواجهة. الحساب الآجل يتطلب هوية صاحب الحساب.',
   password_too_short:'كلمة المرور يجب أن تكون 12 حرفًا على الأقل.',
   csrf_failed:'انتهت جلسة الحماية. أعد المحاولة.',
   upload_failed:'تعذر رفع أحد الملفات. حاول مرة أخرى.',
-  invalid_file:'ملف غير مسموح. استخدم PDF أو صورة واضحة.',
+  invalid_file:'المستندات الرسمية PDF فقط؛ صور المبنى تقبل JPG أو PNG أو WebP أو HEIC أو GIF أو PDF.',
   file_too_large:'الملف أكبر من 5 ميجابايت.',
   rate_limited:'محاولات كثيرة. أعد المحاولة لاحقًا.',
   login_required:'سجّل الدخول أولًا لمتابعة طلبك.',
@@ -71,6 +95,7 @@ function sequence(){
 function setType(){
  const credit=isCredit();
  $$('[data-credit-only]').forEach(el=>el.hidden=!credit);
+ $$('[data-common-required]').forEach(el=>{const slot=el.dataset.uploadSlot;el.required=!slot||!uploaded[slot];});
  $$('[data-credit-required]').forEach(el=>{
   const slot=el.dataset.uploadSlot;
   el.required=credit&&(!(slot&&uploaded[slot]));
@@ -120,6 +145,8 @@ function validateCurrent(){
   if(el.closest('[hidden]'))continue;
   if(el.type==='file'&&el.required&&el.dataset.uploadSlot&&uploaded[el.dataset.uploadSlot])continue;
   el.classList.remove('is-invalid');
+  if(el.dataset.digitPattern){el.value=digit(el.value).replace(/\s/g,'');}
+  if(el.type==='file'&&el.files?.[0]&&(!validFileExtension(el.files[0],el.dataset.uploadSlot)||!validFileType(el.files[0],el.dataset.uploadSlot))){warn(currentError('invalid_file'));el.classList.add('is-invalid');return false;}
   if(el.type==='file'&&el.files?.[0]&&el.files[0].size>5242880){warn(ftx('sizeError','حد الملف الواحد 5 ميجابايت.'));el.classList.add('is-invalid');el.focus();return false;}
   if(!el.checkValidity()){el.classList.add('is-invalid');el.focus();el.reportValidity();return false;}
  }
@@ -141,7 +168,7 @@ function buildBranch(data={}){
  '<div class="field"><label data-flow-t="branchName">اسم الفرع</label><input data-branch-field="name" maxlength="120"></div>'+
  '<div class="field"><label data-flow-t="city">المدينة</label><input data-branch-field="city" maxlength="100"></div>'+
  '<div class="field full"><label data-flow-t="address">العنوان</label><input data-branch-field="address" maxlength="600"></div>'+
- '<div class="field"><label data-flow-t="postalCode">الرمز البريدي</label><input data-branch-field="postal_code" maxlength="20"></div>'+
+ '<div class="field"><label data-flow-t="postalCode">الرمز البريدي</label><input data-branch-field="postal_code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}"></div>'+
  '<div class="field"><label data-flow-t="latitude">خط العرض</label><input data-branch-field="latitude" maxlength="24" dir="ltr"></div>'+
  '<div class="field"><label data-flow-t="longitude">خط الطول</label><input data-branch-field="longitude" maxlength="24" dir="ltr"></div></div>';
  for(const [key,val] of Object.entries(data)){const el=card.querySelector('[data-branch-field='+key+']');if(el)el.value=val||'';}
@@ -161,7 +188,7 @@ function buildPerson(role,row={}){
  '<div class="field"><label data-flow-t="nationality">الجنسية</label><input data-pfield="nationality" maxlength="60"></div>'+
  '<div class="field"><label data-flow-t="identityNumber">رقم الهوية</label><input data-pfield="identity_number" maxlength="80" dir="ltr"></div>'+
  '<div class="field"><label data-flow-t="phone">رقم الهاتف</label><input data-pfield="phone" maxlength="40" dir="ltr"></div></div>'+
- '<label class="upload-field"><span data-flow-t="personIdentity">صورة الهوية / البطاقة الشخصية</span><input type="file" accept=".jpg,.jpeg,.png,.webp,.pdf" data-person-file></label>';
+ '<label class="upload-field"><span data-flow-t="personIdentity">صورة الهوية / البطاقة الشخصية</span><input type="file" accept=".pdf,application/pdf" data-person-file></label>';
  for(const [key,val] of Object.entries(row)){const el=$('[data-pfield='+key+']',card);if(el)el.value=val||'';}
  $('[data-remove-person]',card).addEventListener('click',()=>{if(list.children.length<=1)return;card.remove();relabelPersons(role);});
  list.append(card);relabelPersons(role);
@@ -214,7 +241,7 @@ function applicationData(){
   account_type:getType(),
   legal:{company:value('company'),registration:digit(value('registration')),sector:value('sector'),activity_other:value('activity_other'),issue_date:value('issue_date'),issue_region:value('issue_region'),civil_number:digit(value('civil_number')),expiry_date:value('expiry_date'),vat:digit(value('vat'))},
   owner:{name:value('owner_name'),phone:digit(value('owner_phone')),identity_number:digit(value('owner_identity_number')),email:value('owner_email'),email_confirmation:value('owner_email_confirmation')},
-  location:{city:value('city'),address:value('address'),street:value('street'),postal_code:digit(value('postal_code')),unified_national_number:digit(value('unified_national_number')),latitude:value('latitude'),longitude:value('longitude'),branches:getBranchData()},
+  location:{city:value('city'),address:value('address'),street:value('street'),postal_code:digit(value('postal_code')),building_number:digit(value('building_number')),unified_national_number:digit(value('unified_national_number')),latitude:value('latitude'),longitude:value('longitude'),branches:getBranchData()},
   purchasing:{categories:$$('input[name=categories]:checked').map(x=>x.value),estimated_value:value('estimated_value'),requested_credit_limit:value('requested_credit_limit'),notes:value('purchasing_notes')},
   people:{account_holder:{name:value('account_holder_name'),nationality:value('account_holder_nationality'),identity_number:digit(value('account_holder_identity')),phone:digit(value('account_holder_phone'))},purchasers:getPersonData('purchasers'),receivers:getPersonData('receivers'),accountants:getPersonData('accountants')}
  };
@@ -225,6 +252,9 @@ function review(){
   [ftx('accountType','نوع الحساب'),ftx(app.account_type==='credit'?'creditTitle':'cashTitle',app.account_type)],
   [ftx('company','اسم المنشأة'),app.legal.company],
   [ftx('registration','السجل التجاري'),app.legal.registration],
+  [ftx('vat','الرقم الضريبي'),app.legal.vat],
+  [ftx('buildingNumber','رقم المبنى'),app.location.building_number],
+  [ftx('postalCode','الرمز البريدي'),app.location.postal_code],
   [ftx('ownerName','صاحب الحساب'),app.owner.name],
   [ftx('ownerEmail','البريد الإلكتروني'),app.owner.email],
   [ftx('city','المدينة'),app.location.city],
@@ -265,7 +295,7 @@ async function loadSession(){
 function prefill(data){
  if(!data)return;
  const type=form.querySelector('input[name=account_type][value='+data.account_type+']');if(type)type.checked=true;
- const groups={legal:['company','registration','sector','activity_other','issue_date','issue_region','civil_number','expiry_date','vat'],owner:['name','phone','identity_number','email'],location:['city','address','street','postal_code','unified_national_number','latitude','longitude'],purchasing:['estimated_value','requested_credit_limit','notes']};
+ const groups={legal:['company','registration','sector','activity_other','issue_date','issue_region','civil_number','expiry_date','vat'],owner:['name','phone','identity_number','email'],location:['city','address','street','building_number','postal_code','unified_national_number','latitude','longitude'],purchasing:['estimated_value','requested_credit_limit','notes']};
  for(const [name,keys] of Object.entries(groups)){
   for(const key of keys){
    let fieldName=(name==='owner'?'owner_':'')+key;
@@ -292,6 +322,14 @@ form.addEventListener('submit',async event=>{
  busy=true;next.disabled=back.disabled=submit.disabled=true;uploadBox.hidden=false;bar.style.width='3%';clear();
  try{
   await loadSessionRefresh();
+  const required=['commercial_register','vat_registration','municipal_license','national_address','store_sign',...(isCredit()?['owner_identity']:[])];
+  for(const slot of required){const input=$('[data-upload-slot="'+slot+'"]');if(!uploaded[slot]&&!input?.files?.length)throw new Error('missing_required_documents');}
+  for(const input of $$('input[type=file][data-upload-slot]')){
+    if(input.closest('[hidden]')||!input.files?.length)continue;
+    const file=input.files[0],slot=input.dataset.uploadSlot;
+    if(file.size>5242880)throw new Error('file_too_large');
+    if(!validFileExtension(file,slot)||!validFileType(file,slot)||!await validFileSignature(file,slot))throw new Error('invalid_file');
+  }
   const payload={application:applicationData(),password:value('password'),consent:true};
   const started=await api('start',payload);
   existingApp={...(existingApp||{}),id:started.application.id,status:'draft_documents'};
