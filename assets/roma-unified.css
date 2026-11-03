@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap');
+/*
+ Roma B2B — Unified interface v5
+ Same clean card surfaces, Tajawal type and forest-green palette across
+ website, product catalog, application wizard and existing customer portal.
+ No product/pricing/data changes in this stylesheet.
+*/
+:root{--roma-ux-forest:#103b2d;--roma-ux-deep:#0d3227;--roma-ux-green:#1f8252;--roma-ux-lime:#d7eea0;--roma-ux-paper:#f7f9f5;--roma-ux-white:#fff;--roma-ux-border:#dfeadf;--roma-ux-muted:#647c6b;--roma-ux-shadow:0 16px 48px rgba(16,59,45,.075);--font-ar:'Tajawal','Segoe UI',Tahoma,sans-serif}
+html{scroll-behavior:smooth}
+body,.site-shell,.site-shell *,#app,#app *{font-family:'Tajawal','Segoe UI',Tahoma,sans-serif}
+body{background:var(--roma-ux-paper)}
+button,select,input,textarea{font-family:'Tajawal','Segoe UI',Tahoma,sans-serif}
+:focus-visible{outline:3px solid #8ddaa6;outline-offset:3px}
+.site-header{box-shadow:0 2px 16px rgba(14,59,37,.035)}
+/* MAIN HOMEPAGE — use the successful registration look instead of giant dark billboard */
+body[data-page="home"]{background:var(--roma-ux-paper)}
+body[data-page="home"] .site-header{height:76px}
+body[data-page="home"] .header-inner{gap:18px}
+body[data-page="home"] .desktop-nav{gap:23px}
+body[data-page="home"] .desktop-nav a{font-weight:800;font-size:13px;color:#315947}
+body[data-page="home"] .desktop-nav a:hover{color:#18814e}
+body[data-page="home"] .hero{background:var(--roma-ux-paper);color:var(--roma-ux-forest);padding:28px 0 6px;overflow:visible}
+body[data-page="home"] .hero:before,body[data-page="home"] .hero:after{display:none}
+body[data-page="home"] .hero-grid{background:white;border:1px solid var(--roma-ux-border);border-radius:26px;box-shadow:var(--roma-ux-shadow);padding:18px 22px;min-height:0;grid-template-columns:1.04fr .96fr;gap:14px}
+body[data-page="home"] .hero-copy{padding:36px 26px 32px;max-width:none}
+body[data-page="home"] .hero-eyebrow{color:#277a4c;font-size:11px;font-weight:800;letter-spacing:1.1px}
+body[data-page="home"] .hero-eyebrow-line{background:#5aa56e}
+body[data-page="home"] .hero h1{font-size:clamp(40px,4.15vw,62px);line-height:1.16;letter-spacing:-1.2px;margin:19px 0 19px;color:var(--roma-ux-forest)}
+body[data-page="home"] .hero h1 em{color:#288755;font-style:normal}
+body[data-page="home"] .hero-description{color:#607969;font-size:15px;line-height:1.85;max-width:530px}
+body[data-page="home"] .hero-actions{margin-top:27px;display:flex;gap:10px;flex-wrap:wrap}
+body[data-page="home"] .hero-actions .btn{min-height:50px;border-radius:12px;font-size:13px;font-weight:800;box-shadow:none;padding:0 21px}
+body[data-page="home"] .btn-accent{background:#208452;color:white;border:1px solid #208452}
+body[data-page="home"] .btn-accent:hover{background:#156f43;color:white}
+body[data-page="home"] .btn-ghost{background:#f7fbf6;color:#194c35;border:1px solid #c9dfd0}
+body[data-page="home"] .btn-ghost:hover{background:#e9f6e8;color:#194c35;border-color:#b7d4b9}
+body[data-page="home"] .hero-trust{margin-top:22px;color:#4a8060;font-size:12px;gap:18px}
+body[data-page="home"] .hero-trust svg{color:#1e8a51}
+body[data-page="home"] .hero-scene{height:465px;min-height:465px;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 49% 53%,#306c51 0%,#1e523e 40%,#103b2d 88%);isolation:isolate}
+body[data-page="home"] .scene-glow{opacity:.85}
+body[data-page="home"] .scene-ring{border-color:#d0edbc21}
+body[data-page="home"] .scene-caption{color:#ecf9e6}
+body[data-page="home"] .scene-floating{box-shadow:0 14px 40px #08241b32}
+body[data-page="home"] .hero-bottom-rule{display:none}
+body[data-page="home"] .section{padding:63px 0;scroll-margin-top:86px}
+body[data-page="home"] .section-head{margin-bottom:26px;align-items:end}
+body[data-page="home"] .section-head h2,body[data-page="home"] .how-intro h2{font-size:clamp(26px,2.5vw,40px);line-height:1.35;letter-spacing:-.6px}
+body[data-page="home"] .section-head p,body[data-page="home"] .how-intro p{font-size:14px;color:#668071}
+body[data-page="home"] .brands-section{background:var(--roma-ux-paper)}
+body[data-page="home"] .brand-logo-card{height:144px;border-radius:17px;gap:11px;border-color:#e1e9de;box-shadow:0 3px 12px #143d2810}
+body[data-page="home"] .brand-logo-card img{max-height:66px;object-fit:contain}
+body[data-page="home"] .brand-logo-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px #193e2912}
+body[data-page="home"] .products-section{background:white}
+body[data-page="home"] .product-card{border-radius:18px;box-shadow:0 2px 12px #143d270b}
+body[data-page="home"] .product-figure{background:#f8faf6;min-height:230px}
+body[data-page="home"] .product-figure img{object-fit:contain;max-height:210px}
+body[data-page="home"] .product-bottom{margin-top:26px}
+body[data-page="home"] .how-section{background:var(--roma-ux-paper)}
+body[data-page="home"] .how-grid{background:white;border:1px solid var(--roma-ux-border);border-radius:23px;padding:37px;box-shadow:0 5px 24px #133b2510}
+body[data-page="home"] .how-intro p{line-height:1.85}
+body[data-page="home"] .how-step{border-radius:12px}
+body[data-page="home"] .faq-section{padding:54px 0 72px;background:white}
+body[data-page="home"] .site-footer{background:#0f392a}
+body[data-page="home"] .footer-main{padding-top:50px;padding-bottom:35px}
+body[data-page="home"] .footer-links a{line-height:1.95}
+/* ACCOUNT / TRACKING / REVIEW shared system */
+body.application-page{background:var(--roma-ux-paper)}
+.application-page .site-header{height:76px}
+.application-page .header-inner{gap:16px}
+.application-page .apply-background{background:radial-gradient(circle at 88% 11%,#e9f4df 0,transparent 42%),var(--roma-ux-paper)}
+.application-page .apply-card{border:1px solid var(--roma-ux-border);box-shadow:var(--roma-ux-shadow);border-radius:24px}
+.application-page .flow-card{background:white}
+.application-page .apply-aside{border-radius:24px}
+.application-page .field input,.application-page .field select,.application-page .field textarea{border-color:#d9e6da;border-radius:11px}
+.application-page .field input:focus,.application-page .field select:focus,.application-page .field textarea:focus{border-color:#258759;box-shadow:0 0 0 3px #23845419}
+.application-page .btn-main{background:var(--roma-ux-green);border-color:var(--roma-ux-green)}
+.application-page .form-progress,.application-page .flow-progress{border-radius:20px}
+.application-page .flow-screen h2{color:var(--roma-ux-forest)}
+.application-page .flow-hint{background:#f0f6ed}
+/* LEGACY PUBLIC CATALOG — restyle original dynamic catalogue, keep live data and paging */
+.site-shell{background:var(--roma-ux-paper)}
+.site-shell .topbar{background:#153e30!important;min-height:29px}
+.site-shell .topbar .container{min-height:29px;font-size:10px}
+.site-shell .retail-top-link{font-size:10px}
+.site-shell .site-header{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid var(--roma-ux-border);box-shadow:0 2px 14px #183c3010}
+.site-shell .header-row{min-height:78px;gap:18px}
+.site-shell .site-logo img{width:155px!important;height:auto!important;max-height:63px;object-fit:contain}
+.site-shell .main-nav{gap:17px}
+.site-shell .main-nav a{font-size:13px;font-weight:800;white-space:nowrap;color:#365c44}
+.site-shell .main-nav a:nth-child(n+5){display:none}
+.site-shell .retail-main-cta{display:none!important}
+.site-shell .header-actions{gap:10px}
+.site-shell .account-link{background:var(--roma-ux-green)!important;color:#fff!important;border:1px solid var(--roma-ux-green)!important;border-radius:11px!important;font-weight:800!important;font-size:12px!important;padding:11px 16px!important;white-space:nowrap}
+.site-shell .lang-picker{border:1px solid #dae6da;border-radius:10px;font-size:12px}
+.site-shell .section-cap{width:min(1240px,calc(100% - 60px));margin:24px auto 0;border-radius:22px;min-height:0;padding:43px 48px;background:linear-gradient(120deg,#154938 0%,#103b2d 72%,#1e684c 100%);box-shadow:0 16px 36px #163b2416;text-align:start}
+.site-shell .section-cap:before,.site-shell .section-cap:after{opacity:.35}
+.site-shell .section-cap h1{font-size:clamp(30px,3.3vw,46px);line-height:1.35;margin:10px 0 8px;font-weight:800}
+.site-shell .section-cap p{font-size:14px;line-height:1.75;max-width:720px;margin:0}
+.site-shell .section-cap .cap-index{font-size:11px;letter-spacing:1px}
+.site-shell .container.spaced{padding-top:33px;padding-bottom:45px}
+.site-shell .filters{background:white;border:1px solid #dde8df;border-radius:17px;padding:15px;box-shadow:0 3px 16px #173a2710}
+.site-shell .filters form{display:grid;grid-template-columns:minmax(240px,2fr) minmax(130px,1fr) minmax(120px,1fr) auto;gap:11px;align-items:center}
+.site-shell .filters input,.site-shell .filters select{height:48px;min-height:48px;border:1px solid #d8e7d9!important;border-radius:10px!important;background:#fbfdfb;color:#274e37;font-size:13px;padding:0 14px}
+.site-shell .filters button{height:48px;padding:0 20px;border:0!important;border-radius:11px!important;background:var(--roma-ux-green)!important;color:white!important;font-weight:800;font-size:12px}
+.site-shell .results-count{font-family:Inter,Tajawal,sans-serif;font-size:11px;letter-spacing:.7px;color:#718b78}
+.site-shell .product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.site-shell .p-card{overflow:hidden;background:white;border:1px solid #dfeadf;border-radius:18px;box-shadow:0 4px 20px #122f230c;min-width:0;transition:box-shadow .2s,transform .2s}
+.site-shell .p-card:hover{transform:translateY(-3px);box-shadow:0 18px 35px #183f2d15}
+.site-shell .p-media{background:#f8faf8;min-height:250px;height:250px;padding:14px;display:flex;align-items:center;justify-content:center;position:relative}
+.site-shell .p-media img{object-fit:contain;width:100%;height:208px;max-width:100%;max-height:208px}
+.site-shell .p-media .pack-pill{z-index:2;font-size:10px;background:white;color:#2c5a3e;border:1px solid #d5e7d6;border-radius:50px;padding:7px 10px}
+.site-shell .p-copy{padding:17px 15px 16px}
+.site-shell .p-copy .micro{font-size:11px;color:#288655;font-weight:700}
+.site-shell .p-copy h3{font-size:15px;line-height:1.55;min-height:46px;margin:10px 0}
+.site-shell .p-copy h3 a{color:#1a4330}
+.site-shell .p-note{color:#718875;font-size:11px}
+.site-shell .p-bottom{border-top:1px solid #edf0e9;padding-top:11px;gap:8px;display:flex;align-items:center;justify-content:space-between}
+.site-shell .p-bottom span{font-size:10px;color:#6d856f}
+.site-shell .round-btn{flex:0 0 34px;width:34px;height:34px;background:#e8f6e9;color:#24764b;border-radius:10px}
+.site-shell .pagination{display:flex;justify-content:center;gap:12px;align-items:center;margin-top:28px}
+.site-shell .pagination a{color:#1d7548;border:1px solid #d5e5d7;background:white;padding:10px 17px;border-radius:10px}
+.site-shell .site-footer{background:#113d2f;color:#e7f4eb}
+.site-shell .site-footer a{color:#def1e2}
+.site-shell .product-main{padding-top:32px;padding-bottom:20px;gap:28px}
+.site-shell .product-info h1{font-weight:800;line-height:1.32;font-size:clamp(28px,2.9vw,40px)}
+.site-shell .product-stage{border:1px solid #dfeadf;border-radius:20px;background:white}
+.site-shell .article-panel,.site-shell .info-panel{border:1px solid var(--roma-ux-border);border-radius:18px;background:white}
+/* Old client login: same typography and card palette, keep every login control operative. */
+#app{background:var(--roma-ux-paper)}
+.roma-website-header{background:#fff!important;border-bottom:1px solid var(--roma-ux-border)!important;box-shadow:0 2px 15px #103b2d0a!important}
+.roma-header-row{min-height:75px!important}
+.roma-website-logo img{width:160px!important;height:auto!important;max-height:64px;object-fit:contain}
+.roma-website-nav{gap:19px}
+.roma-website-nav a{font-weight:800!important;font-size:13px!important;color:#365a47!important}
+.roma-website-nav a:nth-child(n+4){display:none}
+.roma-retail-cta{display:none!important}
+.roma-account-cta{background:var(--roma-ux-green)!important;color:#fff!important;border-radius:11px!important;border:0!important;padding:11px 16px!important}
+.roma-header-ops select{border:1px solid #dce7df!important;border-radius:10px!important;background:white!important;font-size:12px!important}
+.roma-mobile-nav nav>a:nth-child(n+4):not([href="#login"]){display:none}
+.roma-mobile-nav nav .roma-retail-cta{display:none!important}
+#app input,#app select,#app textarea{border-color:#dbe8db;border-radius:11px}
+#app button{font-family:var(--font-ar)}
+#app [class*="login-card"],#app [class*="auth-card"],#app [class*="login-panel"]{border-radius:22px!important;border:1px solid var(--roma-ux-border)!important;box-shadow:var(--roma-ux-shadow)!important}
+#app [class*="login-card"] button[type="submit"],#app [class*="auth-card"] button[type="submit"]{background:var(--roma-ux-green)!important;border-radius:11px!important}
+@media(max-width:1150px){
+ body[data-page="home"] .hero-grid{grid-template-columns:1fr 1fr}
+ body[data-page="home"] .hero-copy{padding:28px 9px}
+ body[data-page="home"] .hero-scene{height:420px;min-height:420px}
+ .site-shell .section-cap{width:calc(100% - 44px)}
+ .site-shell .main-nav a:nth-child(n+4){display:none}
+}
+@media(max-width:800px){
+ body[data-page="home"] .hero{padding-top:16px}
+ body[data-page="home"] .hero-grid{display:flex;flex-direction:column;align-items:stretch;padding:14px;gap:4px}
+ body[data-page="home"] .hero-copy{padding:23px 14px 7px}
+ body[data-page="home"] .hero h1{font-size:clamp(36px,9vw,46px);margin:12px 0 15px;letter-spacing:-.6px}
+ body[data-page="home"] .hero-description{font-size:14px;line-height:1.8}
+ body[data-page="home"] .hero-actions{margin-top:19px}
+ body[data-page="home"] .hero-actions .btn{min-height:47px;font-size:12px}
+ body[data-page="home"] .hero-trust{gap:12px;margin-top:15px;font-size:11px}
+ body[data-page="home"] .hero-scene{height:280px;min-height:280px}
+ body[data-page="home"] .scene-floating{transform:scale(.8);transform-origin:bottom left}
+ body[data-page="home"] .section{padding:46px 0}
+ body[data-page="home"] .brand-logo-card{height:128px;padding:12px 9px}
+ body[data-page="home"] .how-grid{padding:20px}
+ .site-shell .section-cap{margin-top:14px;padding:30px 24px;width:calc(100% - 28px);border-radius:19px}
+ .site-shell .section-cap h1{font-size:32px}
+ .site-shell .section-cap p{font-size:13px}
+ .site-shell .container.spaced{padding-top:24px;padding-bottom:30px}
+ .site-shell .filters form{grid-template-columns:1fr 1fr;gap:10px}
+ .site-shell .filters input{grid-column:1/-1}
+ .site-shell .filters button{grid-column:1/-1}
+ .site-shell .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ .site-shell .p-media{height:183px;min-height:183px}
+ .site-shell .p-media img{height:155px;max-height:155px}
+ .site-shell .p-copy{padding:13px 11px}
+ .site-shell .p-copy h3{font-size:13px;min-height:62px;margin:7px 0}
+ .site-shell .p-bottom span{font-size:10px;line-height:1.5}
+ .site-shell .p-media .pack-pill{font-size:9px;padding:6px}
+ .site-shell .main-nav{display:none}
+ .site-shell .header-row{min-height:67px}
+ .site-shell .site-logo img{width:134px!important;max-height:56px}
+ .roma-website-logo img{width:130px!important;max-height:55px}
+ .roma-website-header,.roma-header-row{min-height:69px!important}
+ .application-page .site-header{min-height:72px;height:auto}
+ .application-page .header-inner{min-height:72px}
+}
+@media(max-width:390px){
+ body[data-page="home"] .hero-scene{height:246px;min-height:246px}
+ body[data-page="home"] .hero-copy{padding-inline:7px}
+ .site-shell .filters{padding:11px}
+ .site-shell .filters form{gap:7px}
+ .site-shell .p-media{height:155px;min-height:155px}
+ .site-shell .p-media img{height:130px;max-height:130px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Final overrides: legacy engine used high-specificity green header paint. */
+body:has(.site-shell){font-family:'Tajawal','Segoe UI',Tahoma,sans-serif!important}
+.site-shell .topbar,.site-shell .site-header{border-color:#dce9dc!important}
+.site-shell .retail-top-link{display:none!important}
+.site-shell .site-header{border-bottom:1px solid #e2ebe2!important}
+.application-page .header-actions>a.login-link{white-space:nowrap}
+.application-page .site-header .header-actions{gap:11px}
+@media(max-width:650px){
+ .application-page .header-actions>.login-link{display:none}
+ .ux-breadcrumb{display:flex!important;flex-wrap:wrap;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#547665;padding:0 0 15px}
+ .ux-breadcrumb a{color:#1e8250}
+}
+.ux-breadcrumb{display:none}
