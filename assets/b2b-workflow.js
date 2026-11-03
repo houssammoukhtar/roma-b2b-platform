@@ -5,8 +5,8 @@ if(!['status','review'].includes(page))return;
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const apiURL='b2b-api.php?action=';
 const fmtDate=x=>{try{return new Date(x).toLocaleString(document.documentElement.lang||'ar',{dateStyle:'medium',timeStyle:'short'})}catch{return x||'—'}};
-const stateName={draft_documents:'مسودة / استكمال المستندات',submitted:'بانتظار المراجعة',under_review:'قيد مراجعة الإدارة',changes_requested:'مطلوب تعديل البيانات',approved_pending_signature:'موافقة مبدئية / انتظار التوقيع',signed_submitted:'استلام المستندات الموقعة',accounting_pending:'مراجعة الحسابات',active:'حساب مفعل',rejected:'الطلب مرفوض'};
-const fieldNames={company:'اسم المنشأة',registration:'السجل التجاري',sector:'النشاط',activity_other:'نشاط آخر',issue_date:'تاريخ الإصدار',issue_region:'منطقة الإصدار',civil_number:'رقم السجل المدني',expiry_date:'انتهاء السجل',vat:'الرقم الضريبي',name:'الاسم',phone:'الجوال',email:'البريد الإلكتروني',identity_number:'رقم الهوية',city:'المدينة',address:'العنوان',street:'الشارع',postal_code:'الرمز البريدي',unified_national_number:'الرقم الوطني الموحد',latitude:'خط العرض',longitude:'خط الطول',categories:'المنتجات المطلوبة',estimated_value:'قيمة المشتريات',requested_credit_limit:'الحد الائتماني المطلوب',notes:'ملاحظات',account_holder:'صاحب الحساب',purchasers:'مفوّضو الشراء',receivers:'مفوّضو الاستلام',accountants:'مسؤولو الحسابات',branches:'الفروع'};
+const stateName={draft_documents:'مسودة / استكمال المستندات',submitted:'بانتظار المراجعة',under_review:'قيد مراجعة الإدارة',changes_requested:'مطلوب تعديل البيانات',approved_pending_signature:'انتظار السند الإلكتروني المعتمد',signed_submitted:'استلام السند الإلكتروني للمراجعة',accounting_pending:'مراجعة الحسابات',active:'حساب مفعل',rejected:'الطلب مرفوض'};
+const fieldNames={company:'اسم المنشأة',registration:'السجل التجاري',sector:'النشاط',activity_other:'نشاط آخر',issue_date:'تاريخ الإصدار',issue_region:'منطقة الإصدار',civil_number:'رقم السجل المدني',expiry_date:'انتهاء السجل',vat:'الرقم الضريبي',name:'الاسم',phone:'الجوال',email:'البريد الإلكتروني',identity_number:'رقم الهوية',city:'المدينة',address:'العنوان',street:'الشارع',postal_code:'الرمز البريدي',building_number:'رقم المبنى',unified_national_number:'الرقم الوطني الموحد',latitude:'خط العرض',longitude:'خط الطول',categories:'المنتجات المطلوبة',estimated_value:'قيمة المشتريات',requested_credit_limit:'الحد الائتماني المطلوب',notes:'ملاحظات',account_holder:'صاحب الحساب',purchasers:'مفوّضو الشراء',receivers:'مفوّضو الاستلام',accountants:'مسؤولو الحسابات',branches:'الفروع'};
 let csrf='',viewer=null,selected=null,records=[],staffRole=null;
 const statusError=$('#statusError')||$('#reviewError');
 function showError(message){statusError.textContent=message;statusError.classList.add('visible');statusError.scrollIntoView({block:'nearest'});}
@@ -32,13 +32,14 @@ function docLink(doc){
  a.href='b2b-api.php?action=download&doc='+encodeURIComponent(doc.id);
  a.textContent='تحميل المستند';a.target='_blank';a.rel='noopener noreferrer';return a;
 }
+const docNames={commercial_register:'السجل التجاري',vat_registration:'الشهادة الضريبية',municipal_license:'رخصة البلدية',national_address:'العنوان الوطني',store_sign:'صورة الواجهة',owner_identity:'هوية صاحب الحساب',electronic_promissory_note:'السند الإلكتروني',signed_agreement:'الاتفاق الموقّع'};
 function documents(container,docs){
  const items=Object.entries(docs||{});
  container.replaceChildren();
  if(!items.length){container.textContent='لم تُرفع مستندات لهذا الطلب بعد.';return;}
  for(const [slot,doc] of items){
    const div=document.createElement('div');div.className='flow-doc';
-   const s=document.createElement('span');s.textContent=slot.replace(/_/g,' ')+' · '+(doc.name||'ملف');
+   const s=document.createElement('span');s.textContent=(docNames[slot]||slot.replace(/_/g,' '))+' · '+(doc.name||'ملف')+(doc.customer_code?' · كود العميل '+doc.customer_code:'');
    div.append(s,docLink(doc));container.append(div);
  }
 }
@@ -74,7 +75,9 @@ function miniSummary(app){
   ['رقم الطلب',app.id],['نوع الحساب',app.account_type==='credit'?'آجل':'نقدي'],
   ['اسم العميل',app.data?.owner?.name],['البريد الإلكتروني',app.data?.owner?.email],
   ['المدينة',app.data?.location?.city],['أنشئ بتاريخ',fmtDate(app.created_at)],
-  ['آخر تحديث',fmtDate(app.updated_at)]
+  ['آخر تحديث',fmtDate(app.updated_at)],
+  ...(app.accounting?.customer_code?[['كود العميل',app.accounting.customer_code]]:[]),
+  ...(app.approved_credit_limit?[['الحد الائتماني المعتمد',app.approved_credit_limit+' ر.س']]:[])
  ];
 }
 async function session(){
@@ -99,13 +102,30 @@ async function showStatus(){
  $('#statusEdit').hidden=!canEdit;
  $('#docUploadPanel').hidden=!canEdit;
  $('#signPanel').hidden=app.status!=='approved_pending_signature';
+ if($('#approvedCreditNote'))$('#approvedCreditNote').textContent=app.approved_credit_limit?'الحد المعتمد: '+app.approved_credit_limit+' ريال. يجب أن يساوي مبلغ السند هذا الحد.':'يرجى التواصل مع الإدارة لتحديد الحد المعتمد قبل إصدار السند.';
  $('#statusResubmit').hidden=!canEdit;
 }
+function syncDocFormat(){
+ const select=$('#statusDocSlot'),file=$('#statusDocFile'),hint=$('#statusDocHelp');
+ if(!select||!file)return;
+ const image=['store_sign','store_inside_1','store_inside_2','store_outside'].includes(select.value);
+ file.accept=image?'.jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.pdf,image/*,application/pdf':'.pdf,application/pdf';
+ file.value='';
+ if(hint)hint.textContent=image?'صورة المبنى: JPG أو PNG أو WebP أو HEIC أو GIF أو PDF، بحد أقصى 5 ميجابايت.':'المستند الرسمي PDF فقط، بحد أقصى 5 ميجابايت.';
+}
+$('#statusDocSlot')?.addEventListener('change',syncDocFormat);
+if(page==='status')syncDocFormat();
 $('#statusUpload')?.addEventListener('click',async()=>{
  clearError();
  const f=$('#statusDocFile')?.files?.[0],slot=$('#statusDocSlot')?.value;
  if(!f){showError('اختار ملفًا قبل الرفع.');return;}
  if(f.size>5242880){showError('حد الملف 5 ميجابايت.');return;}
+ const photoSlots=['store_sign','store_inside_1','store_inside_2','store_outside'],photo=photoSlots.includes(slot);
+ const extOk=photo?/\.(jpe?g|png|webp|gif|heic|heif|pdf)$/i.test(f.name):/\.pdf$/i.test(f.name);
+ const head=new Uint8Array(await f.slice(0,24).arrayBuffer()),sig=(i,j)=>String.fromCharCode(...head.slice(i,j));
+ const pdf=sig(0,5)==='%PDF-'&&/\.pdf$/i.test(f.name);
+ const pic=photo&&((/\.jpe?g$/i.test(f.name)&&head[0]===255&&head[1]===216&&head[2]===255)||(/\.png$/i.test(f.name)&&[137,80,78,71,13,10,26,10].every((v,i)=>head[i]===v))||(/\.webp$/i.test(f.name)&&sig(0,4)==='RIFF'&&sig(8,12)==='WEBP')||(/\.gif$/i.test(f.name)&&['GIF87a','GIF89a'].includes(sig(0,6)))||(/\.(heic|heif)$/i.test(f.name)&&sig(4,8)==='ftyp'&&/^(heic|heix|hevc|hevx|mif1|msf1|heif)/.test(sig(8,12))));
+ if(!extOk||!(pdf||pic)){showError('المستندات الرسمية PDF فقط. صور المبنى تُقبل كصورة عادية أو PDF.');return;}
  const btn=$('#statusUpload');btn.disabled=true;
  try{await api('upload',null,f,slot);$('#statusDocFile').value='';await showStatus();}
  catch(e){showError('تعذر رفع الملف: '+e.message);}finally{btn.disabled=false;}
@@ -118,8 +138,9 @@ $('#submitSigned')?.addEventListener('click',async()=>{
  clearError();const file=$('#signedFile')?.files?.[0];
  if(!file){showError('اختار المستند الموقع أولًا.');return;}
  if(file.size>5242880){showError('حد الملف 5 ميجابايت.');return;}
+ if(!/\.pdf$/i.test(file.name)||file.type&&file.type!=='application/pdf'||await file.slice(0,5).text()!=='%PDF-'){showError('السند الإلكتروني يجب أن يكون ملف PDF صالحًا.');return;}
  const btn=$('#submitSigned');btn.disabled=true;
- try{await api('upload',null,file,'signed_agreement');await api('signed_submit',{});await showStatus();}
+ try{await api('upload',null,file,'electronic_promissory_note');await api('signed_submit',{});await showStatus();}
  catch(e){showError('تعذر إرسال التوقيع: '+e.message);}finally{btn.disabled=false;}
 });
 function renderRows(){
@@ -170,6 +191,12 @@ async function detail(id){
  $('#accountSupplier').value=accounts.supplier||'';
  $('#accountNotes').value=accounts.notes||'';
  $('#decisionNote').value='';
+ const credit=selected.account_type==='credit';
+ if($('#creditLimitPanel'))$('#creditLimitPanel').hidden=!(credit&&['submitted','under_review'].includes(selected.status)&&buttons.includes('approve'));
+ if($('#approvedCreditLimit'))$('#approvedCreditLimit').value=selected.approved_credit_limit||selected.data?.purchasing?.requested_credit_limit||'';
+ if($('#creditNoteVerification'))$('#creditNoteVerification').hidden=!(credit&&buttons.includes('send_to_accounting'));
+ if($('#verifiedPromissoryAmount'))$('#verifiedPromissoryAmount').value=selected.approved_credit_limit||'';
+ if($('#promissoryVerified'))$('#promissoryVerified').checked=false;
  $('#reviewDetail').scrollIntoView({block:'start',behavior:'smooth'});
 }
 $$('[data-decision]').forEach(button=>button.addEventListener('click',async()=>{
@@ -179,6 +206,16 @@ $$('[data-decision]').forEach(button=>button.addEventListener('click',async()=>{
  if(decision==='activate'&&(!$('input#accountCustomerCode').value.trim()||!$('#accountRepresentative').value.trim())){showError('أدخل كود العميل ومسؤول الحساب قبل التفعيل.');return;}
  if(!confirm('تأكيد الإجراء: '+button.textContent.trim()+'؟'))return;
  const body={id:selected.id,decision,reason:note};
+ if(decision==='approve'&&selected.account_type==='credit'){
+   const limit=Number($('#approvedCreditLimit')?.value||0);
+   if(!Number.isFinite(limit)||limit<=0){showError('أدخل الحد الائتماني المعتمد أولًا.');return;}
+   body.approved_credit_limit=limit.toFixed(2);
+ }
+ if(decision==='send_to_accounting'&&selected.account_type==='credit'){
+   const amount=Number($('#verifiedPromissoryAmount')?.value||0);
+   if(!Number.isFinite(amount)||amount<=0||!$('#promissoryVerified')?.checked){showError('راجع قيمة السند الإلكتروني وأكّد المطابقة قبل الإرسال للحسابات.');return;}
+   body.promissory_amount=amount.toFixed(2);body.promissory_verified=true;
+ }
  if(decision==='activate')body.accounting={customer_code:$('#accountCustomerCode').value.trim(),representative:$('#accountRepresentative').value.trim(),supplier:$('#accountSupplier').value.trim(),notes:$('#accountNotes').value.trim()};
  button.disabled=true;
  try{await api('decision',body);await list();await detail(selected.id);}catch(e){showError('تعذر حفظ القرار: '+e.message);}finally{button.disabled=false;}
