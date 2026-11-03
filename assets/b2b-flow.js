@@ -16,7 +16,7 @@ const show=(el,yes)=>{if(el)el.hidden=!yes;};
 const errorBox=$('#flowError'),bar=$('#uploadProgressBar'),uploadBox=$('#uploadProgress'),progressText=$('#uploadProgressText');
 const flowCounter=$('#flowCounter'),progress=$('#flowProgress'),next=$('#flowNext'),back=$('#flowBack'),submit=$('#flowSubmit');
 const mapEl=$('#mapCanvas');
-let current='choose',activeSequence=[],csrf='',session=null,existingApp=null,uploaded={},busy=false,map=null,marker=null;
+let current='choose',activeSequence=[],csrf='',session=null,existingApp=null,uploaded={},busy=false,map=null,marker=null,backendAvailable=false;
 const localLang=()=>document.documentElement.lang||'ar';
 const ftx=(k,fallback)=>{
   const langs=window.ROMA_B2B_FLOW_LANG||{};
@@ -60,6 +60,7 @@ function applyLanguage(){
   });
   document.querySelectorAll('.flow-person-section .repeat-card').forEach((card)=>{const label=$('.repeat-header strong',card);if(label)label.textContent=ftx('personNumber','شخص')+' '+(Number(card.dataset.index)+1)});
   renderStep();
+  const notice=$('#previewNotice');if(notice&&!notice.hidden)notice.textContent=ftx('previewOnly','نسخة معاينة فقط: استقبال الطلبات والمستندات غير مفعل حتى اكتمال اختبار الخدمة الآمنة.');
 }
 document.getElementById('langSelect')?.addEventListener('change',()=>{queueMicrotask(applyLanguage);});
 function sequence(){
@@ -247,7 +248,7 @@ async function api(action,body=null,uploadFile=null,slot=null){
 }
 async function loadSession(){
  const state=await api('session');
- csrf=state.csrf;session=state;
+ backendAvailable=true;csrf=state.csrf;session=state;
  if(state.authenticated){const field=$('#passwordField');field.hidden=true;fields('password').required=false;try{
     const r=await api('my');existingApp=r.application;
     if(existingApp&&['draft_documents','changes_requested'].includes(existingApp.status)){
@@ -285,6 +286,7 @@ function prefill(data){
 form.addEventListener('input',event=>{if(event.target?.classList)event.target.classList.remove('is-invalid');clear();});
 form.addEventListener('submit',async event=>{
  event.preventDefault();
+ if(!backendAvailable){warn(ftx('previewOnly','نسخة معاينة فقط: الإرسال غير متاح إلى أن تنتهي اختبارات التخزين الآمن.'));return;}
  if(busy||!validateCurrent())return;
  if(!$('#consent').checked){warn(ftx('consentRequired','يجب الموافقة على سياسة الخصوصية قبل الإرسال.'));return;}
  busy=true;next.disabled=back.disabled=submit.disabled=true;uploadBox.hidden=false;bar.style.width='3%';clear();
@@ -315,5 +317,10 @@ form.addEventListener('submit',async event=>{
 });
 async function loadSessionRefresh(){const state=await api('session');csrf=state.csrf;session=state;}
 setType();preparePeople();applyLanguage();
-loadSession().catch(()=>{console.warn('B2B session unavailable');});
+loadSession().catch(()=>{
+ console.warn('B2B secure workflow backend unavailable');
+ backendAvailable=false;const notice=$('#previewNotice');
+ notice.hidden=false;notice.textContent=ftx('previewOnly','نسخة معاينة فقط: استقبال الطلبات والمستندات غير مفعل حتى اكتمال اختبار الخدمة الآمنة.');
+ submit.disabled=true;submit.setAttribute('aria-disabled','true');
+});
 })();
