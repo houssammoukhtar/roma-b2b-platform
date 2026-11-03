@@ -1,76 +1,163 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>طلب فتح حساب أعمال | مجموعة روما التجارية</title><meta name="description" content="قدّم طلب فتح حساب أعمال لدى مجموعة روما التجارية. تسجيل بيانات منشأتك ومعلومات التواصل ثم مراجعة الفريق المختص.">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>طلب فتح حساب أعمال | مجموعة روما التجارية</title>
+<meta name="description" content="افتح حساب أعمال لدى مجموعة روما التجارية. اختر الحساب النقدي أو الآجل، وقدّم بيانات المنشأة والمستندات المطلوبة لمراجعتها.">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#103b2d">
 <link rel="icon" href="/assets.7903/branding/roma-r-64.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/b2b.css?v=20261103-v3"><script src="assets/b2b-locale.js?v=20261103-v3" defer></script><script src="assets/b2b.js?v=20261103-v3" defer></script></head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="assets/b2b.css?v=20261103-v3">
+<link rel="stylesheet" href="assets/b2b-flow.css?v=20261103-v4">
+<script src="assets/b2b-locale.js?v=20261103-v3" defer></script>
+<script src="assets/b2b.js?v=20261103-v3" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
+<script src="assets/b2b-flow-locale.js?v=20261103-v4" defer></script><script src="assets/b2b-flow.js?v=20261103-v4" defer></script>
+</head>
 <body class="application-page" data-page="apply">
 <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
 <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 3-8 8-8s8 3 8 8"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4Zm-4 10 3 3 5-6"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
-<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 6-5 12 0 18M12 3c5 6 5 12 0 18"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 6-5 12 0 18M12 3c5 6-5 12 0 18"/></symbol>
 <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol></svg>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4Zm-4 10 3 3 5-6"/></symbol>
+</svg>
 <a class="skip-link" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
 <div class="mini-top"><div class="container mini-inner"><span><span class="mini-dot"></span><span data-i18n="topline">مجموعة روما التجارية | حلول الجملة والأعمال في السعودية</span></span><span class="mini-right"><span data-i18n="ifmi">إحدى شركات مجموعة IFMI</span><span class="mini-separator"></span><a href="tel:+966920013312" dir="ltr">+966 9200 13312</a></span></div></div>
 <header class="site-header"><div class="container header-inner">
 <a href="index.html" class="brand-home" aria-label="Roma Trading Group — Home"><img src="/assets.7903/branding/roma-group-logo.png" alt="مجموعة روما التجارية" width="173" height="68"><span class="brand-divider"></span><span class="brand-side"><b data-i18n="business">الأعمال</b><small>B2B PORTAL</small></span></a>
-<div class="header-actions"><a href="index.html" data-local-link class="login-link"><svg class="icon"><use href="#i-chevron"/></svg><span data-i18n="backHome">الرئيسية</span></a>
+<div class="header-actions"><a href="index.html" data-local-link class="login-link"><span data-i18n="backHome">الرئيسية</span></a><a href="status.html" class="login-link" data-local-link data-flow-t="trackAccount">متابعة طلبي</a>
 <label class="language-control"><svg class="icon"><use href="#i-globe"/></svg><select id="langSelect" aria-label="Choose language"><option value="ar">عربي</option><option value="en">EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option></select></label>
 <a href="/portal.php?lang=ar#login" data-portal-link class="btn btn-main header-cta"><svg class="icon"><use href="#i-user"/></svg><span data-i18n="login">دخول العملاء</span></a></div>
 </div></header>
-<main id="main" class="apply-background"><div class="container apply-grid">
-<section class="apply-card">
-<div id="formMain">
-<div class="apply-header"><div><span class="kicker"><span class="kicker-line"></span><span data-i18n="applyEyebrow">BUSINESS ACCOUNT APPLICATION</span></span><h2 data-i18n="applyHeading">طلب فتح حساب أعمال</h2><p data-i18n="applyLead">ارفع مستوى تجربة التوريد وابدأ بتسجيل بيانات منشأتك.</p></div><span id="stepCount" class="apply-counter" aria-live="polite">01 / 04</span></div>
-<div class="form-progress" id="progress" aria-label="Application progress"><span class="active"></span><span></span><span></span><span></span></div>
-<form id="businessApplication" novalidate>
-<div data-step="0"><h3 class="form-step-title" data-i18n="formStep1">01 — بيانات المنشأة</h3><div class="form-fields">
-<div class="field full"><label for="company"><span data-i18n="labelCompany">الاسم التجاري للمنشأة</span> <em>*</em></label><input name="company" id="company" type="text" minlength="2" maxlength="150" autocomplete="organization" required data-placeholder="phCompany" placeholder="اسم المنشأة كما في السجل التجاري"></div>
-<div class="field"><label for="registration"><span data-i18n="labelCR">رقم السجل التجاري</span> <em>*</em></label><input name="registration" id="registration" type="text" minlength="1" maxlength="80" inputmode="numeric" dir="ltr" required data-placeholder="phCR" placeholder="رقم السجل التجاري"></div>
-<div class="field"><label for="vat"><span data-i18n="labelVAT">الرقم الضريبي (إن وجد)</span></label><input name="vat" id="vat" type="text" maxlength="80" inputmode="numeric" dir="ltr" data-placeholder="phVAT" placeholder="اختياري"></div>
-<div class="field full"><label for="sector"><span data-i18n="labelSector">نوع النشاط التجاري</span> <em>*</em></label><select name="sector" id="sector" required><option value="" data-i18n="sectorChoose">اختر النشاط</option><option value="retail" data-i18n="sectorRetail">المتاجر والتجزئة</option><option value="hospitality" data-i18n="sectorHospitality">المطاعم والضيافة</option><option value="distribution" data-i18n="sectorDistribution">الموزعون والجملة</option></select></div>
-</div><p class="field-help" data-i18n="formHint1">استخدم بيانات المنشأة الرسمية لتسهيل المراجعة وتجنّب التأخير.</p></div>
-<div data-step="1" hidden><h3 class="form-step-title" data-i18n="formStep2">02 — العنوان التجاري</h3><div class="form-fields">
-<div class="field full"><label for="city"><span data-i18n="labelCity">المدينة</span> <em>*</em></label><input name="city" id="city" type="text" minlength="2" maxlength="100" autocomplete="address-level2" required data-placeholder="phCity" placeholder="مثال: الرياض"></div>
-<div class="field full"><label for="address"><span data-i18n="labelAddress">العنوان بالتفصيل</span> <em>*</em></label><textarea name="address" id="address" rows="4" minlength="5" maxlength="1000" autocomplete="street-address" required data-placeholder="phAddress" placeholder="الحي والشارع ورقم المبنى ومعلومات إضافية"></textarea></div>
-</div><p class="field-help" data-i18n="formHint2">يُستخدم العنوان لمراجعة الطلب والتواصل، ولا يعني تأكيد التوصيل.</p></div>
-<div data-step="2" hidden><h3 class="form-step-title" data-i18n="formStep3">03 — مسؤول التواصل</h3><div class="form-fields">
-<div class="field full"><label for="name"><span data-i18n="labelName">اسم مسؤول الحساب</span> <em>*</em></label><input name="name" id="name" type="text" minlength="2" maxlength="150" autocomplete="name" required data-placeholder="phName" placeholder="الاسم الأول والأخير"></div>
-<div class="field"><label for="phone"><span data-i18n="labelPhone">رقم الجوال</span> <em>*</em></label><input name="phone" id="phone" type="tel" minlength="7" maxlength="30" autocomplete="tel" required dir="ltr" placeholder="+966 5X XXX XXXX"></div>
-<div class="field"><label for="email"><span data-i18n="labelEmail">البريد الإلكتروني للعمل</span> <em>*</em></label><input name="email" id="email" type="email" maxlength="200" autocomplete="email" required dir="ltr" placeholder="name@company.com"></div>
-</div><p class="field-help" data-i18n="formHint3">سيستخدم الفريق هذه البيانات لمتابعة طلبك والتواصل مع المسؤول.</p></div>
-<div data-step="3" hidden><h3 class="form-step-title" data-i18n="formStep4">04 — أمان الحساب والمراجعة</h3><div class="form-fields">
-<div class="field full"><label for="password"><span data-i18n="labelPassword">كلمة المرور (12 حرفًا على الأقل)</span> <em>*</em></label><input name="password" id="password" type="password" minlength="12" maxlength="72" autocomplete="new-password" required data-placeholder="phPassword" placeholder="اكتب كلمة مرور قوية"></div>
-<div class="field full"><label for="confirmPassword"><span data-i18n="labelConfirm">تأكيد كلمة المرور</span> <em>*</em></label><input name="confirmPassword" id="confirmPassword" type="password" minlength="12" maxlength="72" autocomplete="new-password" required data-placeholder="phConfirm" placeholder="أعد كتابة كلمة المرور"></div>
-</div><p class="field-help"><button id="togglePasswords" class="link-button" type="button" data-i18n="showPassword">إظهار كلمة المرور</button></p>
-<div class="review-table" aria-label="Application summary">
-<div><b data-i18n="labelCompany">الاسم التجاري للمنشأة</b><span id="reviewCompany">—</span></div>
-<div><b data-i18n="labelCR">رقم السجل التجاري</b><span id="reviewCR">—</span></div>
-<div><b data-i18n="labelSector">نوع النشاط التجاري</b><span id="reviewSector">—</span></div>
-<div><b data-i18n="labelCity">المدينة</b><span id="reviewCity">—</span></div>
-<div><b data-i18n="labelName">اسم مسؤول الحساب</b><span id="reviewName">—</span></div>
-<div><b data-i18n="labelEmail">البريد الإلكتروني للعمل</b><span id="reviewEmail">—</span></div>
+<main id="main" class="apply-background">
+<div class="container apply-grid flow-layout">
+<section class="apply-card flow-card">
+<div class="apply-header flow-header">
+<div><span class="kicker"><span class="kicker-line"></span><span data-flow-t="eyebrow">ROMA GROUP · BUSINESS ACCOUNT</span></span>
+<h1 data-flow-t="pageTitle">طلب فتح حساب عميل</h1>
+<p data-flow-t="pageSubtitle">رحلة تسجيل واضحة للحسابات النقدية والآجلة، طبقًا لمخطط اعتماد الإدارة.</p></div>
+<div class="flow-counter" id="flowCounter" dir="ltr">01 / 07</div>
 </div>
-<label class="checkbox-line"><input type="checkbox" id="consent" required><span><span data-i18n="consentText">أوافق على معالجة بيانات الطلب لأغراض التحقق والمراجعة، واطلعت على</span> <a href="/ar/privacy" target="_blank" rel="noopener noreferrer" data-i18n="privacy">سياسة الخصوصية</a>.</span></label>
-<p class="field-help" data-i18n="approvalNotice">إرسال الطلب لا يعني الموافقة المباشرة، وتُحدد الأسعار وشروط التوريد بعد اعتماد الحساب.</p>
+<div class="flow-progress" id="flowProgress" aria-label="مراحل طلب فتح الحساب"><span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div id="resumeHint" class="flow-banner" hidden role="status"><span data-flow-t="resumeDraft">لديك طلب سابق غير مكتمل، تم استرجاع بياناته.</span></div>
+<form id="b2bApplication" novalidate>
+<section class="flow-screen" data-screen="choose">
+<div class="flow-step-label">START / ACCOUNT TYPE</div>
+<h2 data-flow-t="chooseTitle">كيف تحب تتعامل مع روما؟</h2>
+<p class="flow-description" data-flow-t="chooseDesc">اختار نوع حساب شركتك عشان نظهر لك البيانات والمستندات المناسبة. الحساب الآجل لا يضمن الموافقة على حد ائتماني.</p>
+<div class="account-types" role="radiogroup" aria-label="نوع حساب العميل">
+<label class="type-card"><input type="radio" name="account_type" value="cash" required><span class="type-icon" aria-hidden="true">↗</span><b data-flow-t="cashTitle">حساب نقدي</b><span data-flow-t="cashDesc">طلبات وفق شروط الدفع النقدي المعتمدة بعد مراجعة الحساب.</span><small data-flow-t="cashTag">Cash account</small></label>
+<label class="type-card"><input type="radio" name="account_type" value="credit" required><span class="type-icon" aria-hidden="true">◎</span><b data-flow-t="creditTitle">حساب آجل</b><span data-flow-t="creditDesc">طلب حد ائتماني مع مستندات قانونية ومراجعة مالية قبل التفعيل.</span><small data-flow-t="creditTag">Credit account</small></label>
 </div>
-<div id="formStatus" class="form-error" role="alert" aria-live="assertive"></div>
-<div class="form-actions"><button id="formBack" type="button" class="btn btn-back" hidden><svg class="icon"><use href="#i-chevron"/></svg><span data-i18n="back">السابق</span></button><button id="formNext" type="button" class="btn btn-main btn-next"><span data-i18n="next">التالي</span><svg class="icon"><use href="#i-arrow"/></svg></button><button id="formSubmit" type="submit" class="btn btn-main btn-next" hidden><span data-i18n="submit">إرسال طلب فتح الحساب</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
-</form>
-<div class="form-divider"></div><div class="form-bottom"><span><span data-i18n="already">لديك حساب بالفعل؟</span> <a href="/portal.php?lang=ar#login" data-portal-link data-i18n="login">دخول العملاء</a></span><span>ROMA BUSINESS · 2026</span></div>
-</div>
-<div id="completePanel" class="form-complete" hidden><span class="complete-icon"><svg class="icon"><use href="#i-check"/></svg></span><h2 data-i18n="completeTitle">تم استلام طلبك بنجاح</h2><p><strong id="completeCompany"></strong></p><p data-i18n="completeDesc">تم إنشاء حسابك بحالة «بانتظار المراجعة». سنراجع بيانات المنشأة قبل تفعيل مزايا الجملة.</p><a href="/portal.php?lang=ar#portal" data-portal-link class="btn btn-main"><span data-i18n="completeGo">الانتقال لحساب الأعمال</span><svg class="icon"><use href="#i-arrow"/></svg></a></div>
+<div class="flow-hint"><span data-flow-t="typeDisclaimer">تقديم الطلب لا يعني اعتماده؛ الإدارة تراجع البيانات وتحدد شروط التوريد.</span></div>
 </section>
-<aside class="apply-aside"><span class="kicker"><span class="kicker-line"></span><span data-i18n="asideEyebrow">WELCOME TO ROMA BUSINESS</span></span><h1 data-i18n="asideTitle">التوريد الجيد <em>يبدأ بشراكة.</em></h1><p data-i18n="asideDesc">سجّل منشأتك في دقائق، ودع فريقنا يراجع الطلب ويحدد الخطوة التجارية المناسبة لقطاعك.</p>
-<div class="aside-list"><span><svg class="icon"><use href="#i-check"/></svg><span data-i18n="aside1">نموذج أعمال منظم وواضح</span></span><span><svg class="icon"><use href="#i-check"/></svg><span data-i18n="aside2">مراجعة من الفريق المختص</span></span><span><svg class="icon"><use href="#i-check"/></svg><span data-i18n="aside3">تحديد شروط الجملة بعد الاعتماد</span></span></div>
-<div class="aside-footer"><span data-i18n="asideHelp">عندك استفسار عن طلب الحساب؟</span> <a href="tel:+966920013312"><span data-i18n="asideCall">تواصل مع الفريق</span></a></div>
+<section class="flow-screen" data-screen="legal" hidden>
+<div class="flow-step-label">CREDIT STEP 01 / LEGAL DOCUMENTS</div><h2 data-flow-t="legalTitle">بيانات المنشأة والمستندات القانونية</h2><p class="flow-description" data-flow-t="legalDesc">اكتب البيانات الرسمية كما تظهر في السجل التجاري، وارفع المستندات الخاصة بمنشأتك.</p>
+<div class="form-fields">
+<div class="field full"><label for="company" data-flow-t="company">الاسم التجاري للمنشأة *</label><input name="company" id="company" autocomplete="organization" maxlength="150" minlength="2" required></div>
+<div class="field"><label for="registration" data-flow-t="registration">رقم السجل التجاري *</label><input name="registration" id="registration" maxlength="80" required dir="ltr"></div>
+<div class="field"><label for="sector" data-flow-t="sector">نوع النشاط *</label><select name="sector" id="sector" required><option value="" data-flow-t="chooseSector">اختر النشاط</option><option value="retail" data-flow-t="retail">تجزئة / متاجر</option><option value="hospitality" data-flow-t="hospitality">مطاعم / ضيافة</option><option value="distribution" data-flow-t="distribution">جملة / توزيع</option><option value="other" data-flow-t="other">نشاط آخر</option></select></div>
+<div class="field full" data-other-sector hidden><label for="activity_other" data-flow-t="activityOther">توضيح النشاط</label><input name="activity_other" id="activity_other" maxlength="120"></div>
+<div class="field" data-credit-only><label for="issue_date" data-flow-t="issueDate">تاريخ إصدار السجل *</label><input name="issue_date" id="issue_date" type="date" data-credit-required></div>
+<div class="field" data-credit-only><label for="issue_region" data-flow-t="issueRegion">مكان الإصدار / المنطقة *</label><input name="issue_region" id="issue_region" maxlength="120" data-credit-required></div>
+<div class="field" data-credit-only><label for="civil_number" data-flow-t="civilNumber">رقم السجل المدني / الهوية *</label><input name="civil_number" id="civil_number" maxlength="80" dir="ltr" data-credit-required></div>
+<div class="field" data-credit-only><label for="expiry_date" data-flow-t="expiryDate">تاريخ انتهاء السجل *</label><input name="expiry_date" id="expiry_date" type="date" data-credit-required></div>
+<div class="field"><label for="vat" data-flow-t="vat">الرقم الضريبي إن وجد</label><input name="vat" id="vat" maxlength="80" dir="ltr"></div>
+</div>
+<div class="flow-upload-section" data-credit-only>
+<h3 data-flow-t="legalDocuments">الوثائق القانونية</h3><p class="flow-description" data-flow-t="docHint">PDF أو JPG أو PNG بحد أقصى 5 ميجابايت لكل ملف. يُحفظ كل مستند مشفّرًا ولا يُعرض للزوار.</p>
+<div class="upload-grid">
+<label class="upload-field"><span data-flow-t="docCommercial">نسخة السجل التجاري *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="commercial_register" data-credit-required></label>
+<label class="upload-field"><span data-flow-t="docCivil">نسخة السجل المدني / الهوية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="civil_register"></label>
+<label class="upload-field"><span data-flow-t="docMunicipal">صورة رخصة البلدية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="municipal_license"></label>
+<label class="upload-field"><span data-flow-t="docNational">نسخة العنوان الوطني *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="national_address" data-credit-required></label>
+<label class="upload-field"><span data-flow-t="docVat">شهادة التسجيل الضريبي</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="vat_registration"></label>
+<label class="upload-field"><span data-flow-t="docChamber">شهادة اشتراك الغرفة التجارية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="chamber_certificate"></label>
+</div></div>
+</section>
+<section class="flow-screen" data-screen="owner" hidden>
+<div class="flow-step-label">CREDIT STEP 02 / ACCOUNT OWNER</div><h2 data-flow-t="ownerTitle">بيانات صاحب الحساب</h2><p class="flow-description" data-flow-t="ownerDesc">المسؤول الرسمي عن فتح الحساب والتواصل بخصوص الموافقات.</p>
+<div class="form-fields">
+<div class="field full"><label for="owner_name" data-flow-t="ownerName">اسم صاحب الحساب الرسمي *</label><input name="owner_name" id="owner_name" autocomplete="name" maxlength="150" minlength="2" required></div>
+<div class="field"><label for="owner_phone" data-flow-t="ownerPhone">رقم الهاتف للتوثيق *</label><input name="owner_phone" id="owner_phone" type="tel" autocomplete="tel" maxlength="35" minlength="7" dir="ltr" required placeholder="+966 5X XXX XXXX"></div>
+<div class="field" data-credit-only><label for="owner_identity_number" data-flow-t="ownerId">رقم الهوية *</label><input name="owner_identity_number" id="owner_identity_number" maxlength="80" dir="ltr" data-credit-required></div>
+<div class="field"><label for="owner_email" data-flow-t="ownerEmail">البريد الإلكتروني *</label><input name="owner_email" id="owner_email" type="email" autocomplete="email" maxlength="200" dir="ltr" required placeholder="name@company.com"></div>
+<div class="field"><label for="owner_email_confirmation" data-flow-t="ownerEmailConfirm">تأكيد البريد الإلكتروني *</label><input name="owner_email_confirmation" id="owner_email_confirmation" type="email" autocomplete="off" maxlength="200" dir="ltr" required></div>
+<div class="field full" id="passwordField"><label for="password" data-flow-t="password">كلمة مرور الحساب (12 حرفًا على الأقل) *</label><input name="password" id="password" type="password" minlength="12" maxlength="72" autocomplete="new-password" required><small data-flow-t="passwordPrivate">لن يتم تخزين كلمة مرورك ضمن بيانات الطلب؛ يتم تشفيرها في نظام دخول الحساب.</small></div>
+</div>
+<div class="flow-upload-section" data-credit-only><h3 data-flow-t="ownerIdentity">إثبات الهوية</h3><div class="upload-grid"><label class="upload-field"><span data-flow-t="ownerIdFile">صورة هوية صاحب الحساب *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="owner_identity" data-credit-required></label></div></div>
+</section>
+<section class="flow-screen" data-screen="location" hidden>
+<div class="flow-step-label">CREDIT STEP 03 / BUSINESS LOCATION</div><h2 data-flow-t="locationTitle">العنوان والفروع</h2><p class="flow-description" data-flow-t="locationDesc">حدّد موقع المنشأة الرئيسي، وبإمكانك إضافة فروع أخرى وصور من الموقع.</p>
+<div class="form-fields">
+<div class="field"><label for="city" data-flow-t="city">المدينة *</label><input id="city" name="city" minlength="2" maxlength="100" required autocomplete="address-level2"></div>
+<div class="field"><label for="street" data-flow-t="street">الشارع</label><input id="street" name="street" maxlength="120"></div>
+<div class="field full"><label for="address" data-flow-t="address">العنوان التجاري بالتفصيل *</label><textarea id="address" name="address" minlength="5" maxlength="1000" required rows="3"></textarea></div>
+<div class="field" data-credit-only><label for="postal_code" data-flow-t="postalCode">الرمز البريدي *</label><input id="postal_code" name="postal_code" maxlength="20" data-credit-required dir="ltr"></div>
+<div class="field" data-credit-only><label for="unified_national_number" data-flow-t="nationalNumber">الرقم الوطني الموحد *</label><input id="unified_national_number" name="unified_national_number" maxlength="80" data-credit-required dir="ltr"></div>
+</div>
+<div class="map-block"><h3 data-flow-t="mapTitle">اختار موقعك على الخريطة</h3><p data-flow-t="mapHint">اضغط على المكان داخل الخريطة لتحريك المؤشر. الموقع اختياري ويمكنك استخدام الإحداثيات يدويًا.</p>
+<div id="mapCanvas" class="map-canvas" role="region" aria-label="خريطة تحديد موقع المنشأة"></div>
+<div class="map-coordinates"><label><span data-flow-t="latitude">خط العرض</span><input id="latitude" name="latitude" inputmode="decimal" dir="ltr" maxlength="24"></label><label><span data-flow-t="longitude">خط الطول</span><input id="longitude" name="longitude" inputmode="decimal" dir="ltr" maxlength="24"></label><button type="button" id="myLocation" class="flow-secondary" data-flow-t="useLocation">استخدم موقعي</button></div>
+</div>
+<div data-credit-only><div class="flow-section-head"><h3 data-flow-t="branchesTitle">الفروع الإضافية</h3><button type="button" class="flow-secondary" id="addBranch" data-flow-t="addBranch">+ إضافة فرع</button></div><div id="branchesList" class="repeater-list"></div>
+<div class="flow-upload-section"><h3 data-flow-t="sitePhotos">صور المنشأة</h3><div class="upload-grid">
+<label class="upload-field"><span data-flow-t="storeSign">لوحة المنشأة والواجهة</span><input type="file" data-upload-slot="store_sign" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
+<label class="upload-field"><span data-flow-t="inside1">صورة من الداخل (1)</span><input type="file" data-upload-slot="store_inside_1" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
+<label class="upload-field"><span data-flow-t="inside2">صورة من الداخل (2)</span><input type="file" data-upload-slot="store_inside_2" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
+<label class="upload-field"><span data-flow-t="outside">صورة من الخارج</span><input type="file" data-upload-slot="store_outside" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
+</div></div></div>
+</section>
+<section class="flow-screen" data-screen="purchasing" hidden>
+<div class="flow-step-label">CREDIT STEP 04 / PURCHASING PROFILE</div><h2 data-flow-t="purchasingTitle">نوع وقيمة المشتريات</h2><p class="flow-description" data-flow-t="purchasingDesc">البيانات دي للمراجعة التجارية والمالية، ولا تعني الموافقة على الحد الائتماني المطلوب.</p>
+<div class="field full"><label data-flow-t="interested">الأصناف المهتم بها *</label><div class="category-grid">
+<label><input type="checkbox" name="categories" value="beverages"> <span data-flow-t="catBeverages">عصائر ومشروبات</span></label>
+<label><input type="checkbox" name="categories" value="malt"> <span data-flow-t="catMalt">مشروبات شعير</span></label>
+<label><input type="checkbox" name="categories" value="sauces"> <span data-flow-t="catSauces">صلصات وتتبيلات</span></label>
+<label><input type="checkbox" name="categories" value="food"> <span data-flow-t="catFood">منتجات غذائية</span></label>
+<label><input type="checkbox" name="categories" value="frozen"> <span data-flow-t="catFrozen">مجمدات</span></label>
+<label><input type="checkbox" name="categories" value="other"> <span data-flow-t="other">أخرى</span></label>
+</div></div>
+<div class="form-fields" style="margin-top:20px">
+<div class="field"><label for="estimated_value" data-flow-t="estimatedValue">قيمة المشتريات المتوقعة (ر.س) *</label><input id="estimated_value" name="estimated_value" inputmode="decimal" type="number" min="1" step="0.01" data-credit-required></div>
+<div class="field"><label for="requested_credit_limit" data-flow-t="requestedLimit">الحد الائتماني المطلوب (ر.س) *</label><input id="requested_credit_limit" name="requested_credit_limit" type="number" inputmode="decimal" min="1" step="0.01" data-credit-required></div>
+<div class="field full"><label for="purchasing_notes" data-flow-t="purchaseNotes">ملاحظات إضافية</label><textarea id="purchasing_notes" name="purchasing_notes" rows="3" maxlength="1300"></textarea></div></div>
+</section>
+<section class="flow-screen" data-screen="people" hidden>
+<div class="flow-step-label">CREDIT STEP 05 / AUTHORIZED PERSONS</div><h2 data-flow-t="peopleTitle">المسؤولون والمفوّضون</h2><p class="flow-description" data-flow-t="peopleDesc">أدخل بيانات صاحب الحساب وأضف الأشخاص المفوضين بالشراء والاستلام والحسابات، كل مجموعة بشكل مستقل.</p>
+<div class="flow-person-section"><h3 data-flow-t="accountHolder">صاحب الحساب</h3><div class="form-fields">
+<div class="field"><label data-flow-t="name">الاسم</label><input name="account_holder_name" maxlength="130"></div>
+<div class="field"><label data-flow-t="nationality">الجنسية</label><input name="account_holder_nationality" maxlength="60"></div>
+<div class="field"><label data-flow-t="identityNumber">رقم الهوية</label><input name="account_holder_identity" maxlength="80" dir="ltr"></div>
+<div class="field"><label data-flow-t="phone">رقم الجوال</label><input name="account_holder_phone" maxlength="40" dir="ltr"></div>
+</div><label class="upload-field"><span data-flow-t="holderIdFile">إثبات هوية صاحب الحساب</span><input type="file" data-upload-slot="account_holder_identity_0" accept=".pdf,.jpg,.jpeg,.png,.webp"></label></div>
+<div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="purchasers">المفوّضون بالشراء *</h3><button type="button" class="flow-secondary" data-add-person="purchasers" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="purchasers"></div></div>
+<div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="receivers">المفوّضون باستلام البضائع *</h3><button type="button" class="flow-secondary" data-add-person="receivers" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="receivers"></div></div>
+<div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="accountants">المسؤولون عن الحسابات *</h3><button type="button" class="flow-secondary" data-add-person="accountants" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="accountants"></div></div>
+</section>
+<section class="flow-screen" data-screen="review" hidden>
+<div class="flow-step-label">FINAL CHECK / SUBMIT</div><h2 data-flow-t="reviewTitle">مراجعة الطلب وإرساله</h2><p class="flow-description" data-flow-t="reviewDesc">راجع البيانات والمستندات قبل الإرسال. سيتم إنشاء الحساب بحالة «بانتظار المراجعة»، وليس حسابًا مفعلًا.</p>
+<div id="reviewSummary" class="flow-review-grid"></div>
+<div class="flow-warning"><strong data-flow-t="documentsNote">مهم بخصوص الملفات:</strong> <span data-flow-t="documentsExplanation">عند الضغط على إرسال، سيُنشأ الحساب أولًا ثم تُرفع الملفات واحدًا واحدًا بشكل مشفّر. لو انقطع الاتصال، تقدر ترجع وتكمل طلبك.</span></div>
+<label class="checkbox-line"><input type="checkbox" id="consent" required><span data-flow-t="consent">أوافق على معالجة بيانات المنشأة والمستندات لغرض التحقق من طلب فتح الحساب، واطلعت على</span> <a href="/ar/privacy" target="_blank" rel="noopener noreferrer" data-i18n="privacy">سياسة الخصوصية</a>.</label>
+</section>
+<div id="flowError" class="form-error" role="alert" aria-live="assertive"></div>
+<div id="uploadProgress" class="upload-progress" hidden role="status" aria-live="polite"><div class="upload-progress-track"><div id="uploadProgressBar"></div></div><span id="uploadProgressText" data-flow-t="uploading">جاري إرسال الطلب ورفع المستندات...</span></div>
+<div class="form-actions flow-actions"><button type="button" id="flowBack" class="btn btn-back" hidden data-flow-t="back">السابق</button><button type="button" id="flowNext" class="btn btn-main btn-next"><span data-flow-t="next">التالي</span><svg class="icon"><use href="#i-arrow"/></svg></button><button type="submit" id="flowSubmit" class="btn btn-main btn-next" hidden><span data-flow-t="submit">إرسال الطلب للمراجعة</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
+</form>
+<div class="form-divider"></div><div class="form-bottom"><span><span data-i18n="already">لديك حساب؟</span> <a href="/portal.php?lang=ar#login" data-portal-link data-i18n="login">دخول العملاء</a></span><a href="status.html" data-local-link data-flow-t="trackAccount">متابعة طلبي</a></div>
+</section>
+<aside class="apply-aside flow-aside">
+<span class="kicker"><span class="kicker-line"></span> ROMA BUSINESS / ONBOARDING</span>
+<h2 data-flow-t="asideTitle">شراكتك تبدأ <em>بخطوات واضحة.</em></h2>
+<p data-flow-t="asideDesc">النموذج بيجمع البيانات المطلوبة من مخطط فتح الحساب، وبيفصل الحساب النقدي عن الآجل حتى تكون المراجعة أدق.</p>
+<div class="aside-list"><span>✓ <span data-flow-t="aside1">مسار مخصص حسب نوع الحساب</span></span><span>✓ <span data-flow-t="aside2">مستندات تُحفظ مشفّرة</span></span><span>✓ <span data-flow-t="aside3">مراجعة وملاحظات من الإدارة</span></span><span>✓ <span data-flow-t="aside4">متابعة حالة طلبك وتعديله</span></span></div>
+<div class="aside-footer"><span data-flow-t="asideContact">مساعدة أثناء التسجيل؟</span> <a href="tel:+966920013312">+966 9200 13312</a></div>
 </aside>
 </div></main>
-<footer class="site-footer"><div class="container footer-bottom"><span>© 2026 ROMA TRADING GROUP</span><span data-i18n="rights">جميع الحقوق محفوظة.</span><a href="index.html" data-local-link data-i18n="backHome">الرئيسية</a></div></footer>
+<footer class="site-footer"><div class="container footer-bottom"><span>© 2026 ROMA TRADING GROUP</span><a href="index.html" data-local-link data-i18n="backHome">الرئيسية</a><span data-i18n="rights">جميع الحقوق محفوظة.</span></div></footer>
 </body></html>
