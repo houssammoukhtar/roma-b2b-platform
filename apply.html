@@ -10,11 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="assets/b2b.css?v=20261103-v3"><link rel="stylesheet" href="assets/roma-unified.css?v=20261103-v5">
-<link rel="stylesheet" href="assets/b2b-flow.css?v=20261103-v4">
+<link rel="stylesheet" href="assets/b2b-flow.css?v=20261103-v6">
 <script src="assets/b2b-locale.js?v=20261103-v3" defer></script>
 <script src="assets/b2b.js?v=20261103-v3" defer></script><script src="assets/roma-unified.js?v=20261103-v5" defer></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
-<script src="assets/b2b-flow-locale.js?v=20261103-v4" defer></script><script src="assets/b2b-flow.js?v=20261103-v4" defer></script>
+<script src="assets/b2b-flow-locale.js?v=20261103-v4" defer></script><script src="assets/b2b-requirements-locale.js?v=20261103-v6" defer></script><script src="assets/b2b-flow.js?v=20261103-v6" defer></script>
 </head>
 <body class="application-page" data-page="apply">
 <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -51,33 +51,33 @@
 <h2 data-flow-t="chooseTitle">كيف تحب تتعامل مع روما؟</h2>
 <p class="flow-description" data-flow-t="chooseDesc">اختار نوع حساب شركتك عشان نظهر لك البيانات والمستندات المناسبة. الحساب الآجل لا يضمن الموافقة على حد ائتماني.</p>
 <div class="account-types" role="radiogroup" aria-label="نوع حساب العميل">
-<label class="type-card"><input type="radio" name="account_type" value="cash" required><span class="type-icon" aria-hidden="true">↗</span><b data-flow-t="cashTitle">حساب نقدي</b><span data-flow-t="cashDesc">طلبات وفق شروط الدفع النقدي المعتمدة بعد مراجعة الحساب.</span><small data-flow-t="cashTag">Cash account</small></label>
+<label class="type-card"><input type="radio" name="account_type" value="cash" required><span class="type-icon" aria-hidden="true">↗</span><b data-flow-t="cashTitle">فتح حساب / طلب توريد نقدي</b><span data-flow-t="cashDesc">طلبات وفق شروط الدفع النقدي المعتمدة بعد مراجعة الحساب.</span><small data-flow-t="cashTag">Cash account</small></label>
 <label class="type-card"><input type="radio" name="account_type" value="credit" required><span class="type-icon" aria-hidden="true">◎</span><b data-flow-t="creditTitle">حساب آجل</b><span data-flow-t="creditDesc">طلب حد ائتماني مع مستندات قانونية ومراجعة مالية قبل التفعيل.</span><small data-flow-t="creditTag">Credit account</small></label>
 </div>
 <div class="flow-hint"><span data-flow-t="typeDisclaimer">تقديم الطلب لا يعني اعتماده؛ الإدارة تراجع البيانات وتحدد شروط التوريد.</span></div>
 </section>
 <section class="flow-screen" data-screen="legal" hidden>
-<div class="flow-step-label">CREDIT STEP 01 / LEGAL DOCUMENTS</div><h2 data-flow-t="legalTitle">بيانات المنشأة والمستندات القانونية</h2><p class="flow-description" data-flow-t="legalDesc">اكتب البيانات الرسمية كما تظهر في السجل التجاري، وارفع المستندات الخاصة بمنشأتك.</p>
+<div class="flow-step-label">STEP 01 / CASH & CREDIT LEGAL DOCUMENTS</div><h2 data-flow-t="legalTitle">بيانات المنشأة والمستندات القانونية</h2><p class="flow-description" data-flow-t="legalDesc">اكتب البيانات الرسمية كما تظهر في السجل التجاري، وارفع المستندات الخاصة بمنشأتك.</p>
 <div class="form-fields">
 <div class="field full"><label for="company" data-flow-t="company">الاسم التجاري للمنشأة *</label><input name="company" id="company" autocomplete="organization" maxlength="150" minlength="2" required></div>
-<div class="field"><label for="registration" data-flow-t="registration">رقم السجل التجاري *</label><input name="registration" id="registration" maxlength="80" required dir="ltr"></div>
+<div class="field"><label for="registration" data-flow-t="registration">رقم السجل التجاري *</label><input name="registration" id="registration" inputmode="numeric" autocomplete="off" maxlength="10" minlength="10" pattern="[0-9]{10}" title="يجب أن يتكون السجل التجاري من 10 أرقام" data-digit-pattern="cr" required dir="ltr"><small class="field-help" data-flow-t="crRule">السجل التجاري: 10 أرقام بالضبط.</small></div>
 <div class="field"><label for="sector" data-flow-t="sector">نوع النشاط *</label><select name="sector" id="sector" required><option value="" data-flow-t="chooseSector">اختر النشاط</option><option value="retail" data-flow-t="retail">تجزئة / متاجر</option><option value="hospitality" data-flow-t="hospitality">مطاعم / ضيافة</option><option value="distribution" data-flow-t="distribution">جملة / توزيع</option><option value="other" data-flow-t="other">نشاط آخر</option></select></div>
 <div class="field full" data-other-sector hidden><label for="activity_other" data-flow-t="activityOther">توضيح النشاط</label><input name="activity_other" id="activity_other" maxlength="120"></div>
 <div class="field" data-credit-only><label for="issue_date" data-flow-t="issueDate">تاريخ إصدار السجل *</label><input name="issue_date" id="issue_date" type="date" data-credit-required></div>
 <div class="field" data-credit-only><label for="issue_region" data-flow-t="issueRegion">مكان الإصدار / المنطقة *</label><input name="issue_region" id="issue_region" maxlength="120" data-credit-required></div>
 <div class="field" data-credit-only><label for="civil_number" data-flow-t="civilNumber">رقم السجل المدني / الهوية *</label><input name="civil_number" id="civil_number" maxlength="80" dir="ltr" data-credit-required></div>
 <div class="field" data-credit-only><label for="expiry_date" data-flow-t="expiryDate">تاريخ انتهاء السجل *</label><input name="expiry_date" id="expiry_date" type="date" data-credit-required></div>
-<div class="field"><label for="vat" data-flow-t="vat">الرقم الضريبي إن وجد</label><input name="vat" id="vat" maxlength="80" dir="ltr"></div>
+<div class="field"><label for="vat" data-flow-t="vat">الرقم الضريبي *</label><input name="vat" id="vat" inputmode="numeric" autocomplete="off" maxlength="15" minlength="15" pattern="[0-9]{14}3" title="الرقم الضريبي 15 رقمًا وينتهي بالرقم 3" data-digit-pattern="vat" required dir="ltr"><small class="field-help" data-flow-t="vatRule">الرقم الضريبي: 15 رقمًا وآخر رقم 3.</small></div>
 </div>
-<div class="flow-upload-section" data-credit-only>
-<h3 data-flow-t="legalDocuments">الوثائق القانونية</h3><p class="flow-description" data-flow-t="docHint">PDF أو JPG أو PNG بحد أقصى 5 ميجابايت لكل ملف. يُحفظ كل مستند مشفّرًا ولا يُعرض للزوار.</p>
+<div class="flow-upload-section">
+<h3 data-flow-t="legalDocuments">الوثائق القانونية</h3><p class="flow-description" data-flow-t="docHint">المستندات الرسمية PDF فقط: السجل التجاري، الشهادة الضريبية، الرخصة، والعنوان الوطني. صورة واجهة المبنى تُقبل بصيغ الصور الشائعة أو PDF. الحد الأقصى 5 ميجابايت للملف.</p>
 <div class="upload-grid">
-<label class="upload-field"><span data-flow-t="docCommercial">نسخة السجل التجاري *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="commercial_register" data-credit-required></label>
-<label class="upload-field"><span data-flow-t="docCivil">نسخة السجل المدني / الهوية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="civil_register"></label>
-<label class="upload-field"><span data-flow-t="docMunicipal">صورة رخصة البلدية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="municipal_license"></label>
-<label class="upload-field"><span data-flow-t="docNational">نسخة العنوان الوطني *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="national_address" data-credit-required></label>
-<label class="upload-field"><span data-flow-t="docVat">شهادة التسجيل الضريبي</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="vat_registration"></label>
-<label class="upload-field"><span data-flow-t="docChamber">شهادة اشتراك الغرفة التجارية</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="chamber_certificate"></label>
+<label class="upload-field"><span data-flow-t="docCommercial">نسخة السجل التجاري *</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="commercial_register" data-common-required></label>
+<label class="upload-field"><span data-flow-t="docCivil">نسخة السجل المدني / الهوية</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="civil_register"></label>
+<label class="upload-field"><span data-flow-t="docMunicipal">صورة رخصة البلدية *</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="municipal_license" data-common-required></label>
+<label class="upload-field"><span data-flow-t="docNational">نسخة العنوان الوطني *</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="national_address" data-common-required></label>
+<label class="upload-field"><span data-flow-t="docVat">شهادة التسجيل الضريبي *</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="vat_registration" data-common-required></label>
+<label class="upload-field"><span data-flow-t="docChamber">شهادة اشتراك الغرفة التجارية</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="chamber_certificate"></label>
 </div></div>
 </section>
 <section class="flow-screen" data-screen="owner" hidden>
@@ -90,27 +90,28 @@
 <div class="field"><label for="owner_email_confirmation" data-flow-t="ownerEmailConfirm">تأكيد البريد الإلكتروني *</label><input name="owner_email_confirmation" id="owner_email_confirmation" type="email" autocomplete="off" maxlength="200" dir="ltr" required></div>
 <div class="field full" id="passwordField"><label for="password" data-flow-t="password">كلمة مرور الحساب (12 حرفًا على الأقل) *</label><input name="password" id="password" type="password" minlength="12" maxlength="72" autocomplete="new-password" required><small data-flow-t="passwordPrivate">لن يتم تخزين كلمة مرورك ضمن بيانات الطلب؛ يتم تشفيرها في نظام دخول الحساب.</small></div>
 </div>
-<div class="flow-upload-section" data-credit-only><h3 data-flow-t="ownerIdentity">إثبات الهوية</h3><div class="upload-grid"><label class="upload-field"><span data-flow-t="ownerIdFile">صورة هوية صاحب الحساب *</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-upload-slot="owner_identity" data-credit-required></label></div></div>
+<div class="flow-upload-section" data-credit-only><h3 data-flow-t="ownerIdentity">إثبات الهوية</h3><div class="upload-grid"><label class="upload-field"><span data-flow-t="ownerIdFile">صورة هوية صاحب الحساب *</span><input type="file" accept=".pdf,application/pdf" data-upload-slot="owner_identity" data-credit-required></label></div></div>
 </section>
 <section class="flow-screen" data-screen="location" hidden>
-<div class="flow-step-label">CREDIT STEP 03 / BUSINESS LOCATION</div><h2 data-flow-t="locationTitle">العنوان والفروع</h2><p class="flow-description" data-flow-t="locationDesc">حدّد موقع المنشأة الرئيسي، وبإمكانك إضافة فروع أخرى وصور من الموقع.</p>
+<div class="flow-step-label">STEP 03 / NATIONAL ADDRESS</div><h2 data-flow-t="locationTitle">العنوان والفروع</h2><p class="flow-description" data-flow-t="locationDesc">حدّد موقع المنشأة الرئيسي، وبإمكانك إضافة فروع أخرى وصور من الموقع.</p>
 <div class="form-fields">
 <div class="field"><label for="city" data-flow-t="city">المدينة *</label><input id="city" name="city" minlength="2" maxlength="100" required autocomplete="address-level2"></div>
 <div class="field"><label for="street" data-flow-t="street">الشارع</label><input id="street" name="street" maxlength="120"></div>
 <div class="field full"><label for="address" data-flow-t="address">العنوان التجاري بالتفصيل *</label><textarea id="address" name="address" minlength="5" maxlength="1000" required rows="3"></textarea></div>
-<div class="field" data-credit-only><label for="postal_code" data-flow-t="postalCode">الرمز البريدي *</label><input id="postal_code" name="postal_code" maxlength="20" data-credit-required dir="ltr"></div>
+<div class="field"><label for="building_number" data-flow-t="buildingNumber">رقم المبنى *</label><input id="building_number" name="building_number" inputmode="numeric" maxlength="4" minlength="4" pattern="[0-9]{4}" data-digit-pattern="building" required dir="ltr"><small class="field-help" data-flow-t="buildingRule">رقم المبنى: 4 أرقام.</small></div><div class="field"><label for="postal_code" data-flow-t="postalCode">الرمز البريدي *</label><input id="postal_code" name="postal_code" inputmode="numeric" maxlength="5" minlength="5" pattern="[0-9]{5}" data-digit-pattern="postal" required dir="ltr"><small class="field-help" data-flow-t="postalRule">الرمز البريدي: 5 أرقام.</small></div>
 <div class="field" data-credit-only><label for="unified_national_number" data-flow-t="nationalNumber">الرقم الوطني الموحد *</label><input id="unified_national_number" name="unified_national_number" maxlength="80" data-credit-required dir="ltr"></div>
 </div>
 <div class="map-block"><h3 data-flow-t="mapTitle">اختار موقعك على الخريطة</h3><p data-flow-t="mapHint">اضغط على المكان داخل الخريطة لتحريك المؤشر. الموقع اختياري ويمكنك استخدام الإحداثيات يدويًا.</p>
 <div id="mapCanvas" class="map-canvas" role="region" aria-label="خريطة تحديد موقع المنشأة"></div>
 <div class="map-coordinates"><label><span data-flow-t="latitude">خط العرض</span><input id="latitude" name="latitude" inputmode="decimal" dir="ltr" maxlength="24"></label><label><span data-flow-t="longitude">خط الطول</span><input id="longitude" name="longitude" inputmode="decimal" dir="ltr" maxlength="24"></label><button type="button" id="myLocation" class="flow-secondary" data-flow-t="useLocation">استخدم موقعي</button></div>
 </div>
+<div class="flow-upload-section"><h3 data-flow-t="facadeTitle">صورة واجهة المنشأة</h3><p class="flow-description" data-flow-t="facadePhotoNote">ارفع صورة واضحة لواجهة المبنى مباشرة JPG أو PNG أو WebP أو HEIC أو GIF، ويمكنك رفع PDF أيضًا. مطلوب للحساب النقدي والآجل.</p><div class="upload-grid"><label class="upload-field"><span data-flow-t="storeSign">صورة واجهة المنشأة / لوحة المحل *</span><input type="file" data-upload-slot="store_sign" data-common-required accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.pdf,image/*,application/pdf"></label></div></div>
 <div data-credit-only><div class="flow-section-head"><h3 data-flow-t="branchesTitle">الفروع الإضافية</h3><button type="button" class="flow-secondary" id="addBranch" data-flow-t="addBranch">+ إضافة فرع</button></div><div id="branchesList" class="repeater-list"></div>
-<div class="flow-upload-section"><h3 data-flow-t="sitePhotos">صور المنشأة</h3><div class="upload-grid">
-<label class="upload-field"><span data-flow-t="storeSign">لوحة المنشأة والواجهة</span><input type="file" data-upload-slot="store_sign" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
-<label class="upload-field"><span data-flow-t="inside1">صورة من الداخل (1)</span><input type="file" data-upload-slot="store_inside_1" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
-<label class="upload-field"><span data-flow-t="inside2">صورة من الداخل (2)</span><input type="file" data-upload-slot="store_inside_2" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
-<label class="upload-field"><span data-flow-t="outside">صورة من الخارج</span><input type="file" data-upload-slot="store_outside" accept=".pdf,.jpg,.jpeg,.png,.webp"></label>
+<div class="flow-upload-section"><h3 data-flow-t="sitePhotos">صور إضافية للمنشأة (اختياري للحساب الآجل)</h3><div class="upload-grid">
+
+<label class="upload-field"><span data-flow-t="inside1">صورة من الداخل (1)</span><input type="file" data-upload-slot="store_inside_1" accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.pdf,image/*,application/pdf"></label>
+<label class="upload-field"><span data-flow-t="inside2">صورة من الداخل (2)</span><input type="file" data-upload-slot="store_inside_2" accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.pdf,image/*,application/pdf"></label>
+<label class="upload-field"><span data-flow-t="outside">صورة من الخارج</span><input type="file" data-upload-slot="store_outside" accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.pdf,image/*,application/pdf"></label>
 </div></div></div>
 </section>
 <section class="flow-screen" data-screen="purchasing" hidden>
@@ -135,7 +136,7 @@
 <div class="field"><label data-flow-t="nationality">الجنسية</label><input name="account_holder_nationality" maxlength="60"></div>
 <div class="field"><label data-flow-t="identityNumber">رقم الهوية</label><input name="account_holder_identity" maxlength="80" dir="ltr"></div>
 <div class="field"><label data-flow-t="phone">رقم الجوال</label><input name="account_holder_phone" maxlength="40" dir="ltr"></div>
-</div><label class="upload-field"><span data-flow-t="holderIdFile">إثبات هوية صاحب الحساب</span><input type="file" data-upload-slot="account_holder_identity_0" accept=".pdf,.jpg,.jpeg,.png,.webp"></label></div>
+</div><label class="upload-field"><span data-flow-t="holderIdFile">إثبات هوية صاحب الحساب</span><input type="file" data-upload-slot="account_holder_identity_0" accept=".pdf,application/pdf"></label></div>
 <div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="purchasers">المفوّضون بالشراء *</h3><button type="button" class="flow-secondary" data-add-person="purchasers" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="purchasers"></div></div>
 <div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="receivers">المفوّضون باستلام البضائع *</h3><button type="button" class="flow-secondary" data-add-person="receivers" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="receivers"></div></div>
 <div class="flow-person-section"><div class="flow-section-head"><h3 data-flow-t="accountants">المسؤولون عن الحسابات *</h3><button type="button" class="flow-secondary" data-add-person="accountants" data-flow-t="addPerson">+ إضافة شخص</button></div><div class="repeater-list" data-person-list="accountants"></div></div>
