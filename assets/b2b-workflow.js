@@ -196,5 +196,5 @@ $('#reviewSearch')?.addEventListener('input',renderRows);
 $('#reviewFilter')?.addEventListener('change',renderRows);
 $('#detailClose')?.addEventListener('click',()=>{$('#reviewDetail').hidden=true;});
 if(page==='status')showStatus().catch(e=>{$('#statusLoading').hidden=true;showError('تعذر عرض حالة الطلب: '+e.message);});
-if(page==='review')session().then(s=>{if(!s.authenticated||!['admin','reviewer','accountant'].includes(s.staff_role)){ $('#reviewLoading').hidden=true;$('#reviewDenied').hidden=false;return;}return list();}).catch(e=>{$('#reviewLoading').hidden=true;$('#reviewDenied').hidden=false;showError(e.message);});
+if(page==='review')session().then(s=>{if(!s.authenticated||!['admin','reviewer','accountant'].includes(s.staff_role)){ $('#reviewLoading').hidden=true;$('#reviewDenied').hidden=false;return;}return list();}).catch(()=>{$('#reviewLoading').hidden=true;$('#reviewDenied').hidden=true;showError('خدمة مراجعة الطلبات غير منشورة في نسخة المعاينة.');});
 })();
