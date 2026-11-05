@@ -1,0 +1,33 @@
+/* ROMA B2B — animated wholesale hero, 2026-11-05.
+   Motion remains a GIF; invisible overlays are real keyboard-operable links.
+   Other languages keep the prior semantic HTML hero. */
+body[data-page="home"] .hero.roma-gif-enabled{background:#f7f9f5;padding:24px 0 12px;overflow:visible}
+body[data-page="home"] .hero.roma-gif-enabled::before,body[data-page="home"] .hero.roma-gif-enabled::after{display:none}
+body[data-page="home"] .roma-original-hero{display:none}
+body[data-page="home"] .roma-motion-banner{display:block;max-width:1240px;margin:0 auto}
+body[data-page="home"] .roma-motion-frame{position:relative;width:100%;aspect-ratio:832/466;background:#074834 url('/assets/roma-b2b-hero-poster.jpg?v=20261105') center/cover no-repeat;border:1px solid #cfe2d2;border-radius:23px;overflow:hidden;isolation:isolate;box-shadow:0 22px 44px rgba(17,67,38,.15)}
+body[data-page="home"] .roma-motion-image,body[data-page="home"] .roma-motion-poster{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;pointer-events:none}
+body[data-page="home"] .roma-motion-poster{display:none}
+body[data-page="home"] .roma-motion-visual-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+body[data-page="home"] .roma-motion-hotspots{position:absolute;inset:0;z-index:2}
+body[data-page="home"] .roma-motion-hit{position:absolute;display:block;border:2px solid transparent;border-radius:14px;background:transparent;cursor:pointer;transition:border-color .16s,box-shadow .16s}
+body[data-page="home"] .roma-motion-hit:hover,body[data-page="home"] .roma-motion-hit:focus-visible{border-color:#cbf0b9;box-shadow:0 0 0 4px rgba(196,255,173,.18);outline:none}
+body[data-page="home"] .roma-motion-hit.catalog{left:55.5%;top:61.5%;width:18.8%;height:11%}
+body[data-page="home"] .roma-motion-hit.apply{left:74.8%;top:61.5%;width:22.1%;height:11%}
+body[data-page="home"] .roma-motion-mobile-copy{display:none}
+html:not([lang="ar"]) body[data-page="home"] .roma-motion-banner{display:none}
+html:not([lang="ar"]) body[data-page="home"] .roma-original-hero{display:block}
+@media(max-width:760px){
+ body[data-page="home"] .hero.roma-gif-enabled{padding:14px 0 10px}
+ body[data-page="home"] .roma-motion-frame{border-radius:15px;box-shadow:0 12px 28px rgba(13,58,30,.14)}
+ body[data-page="home"] .roma-motion-hotspots{display:none}
+ body[data-page="home"] .roma-motion-mobile-copy{display:block;margin:13px 0 0;padding:22px 18px 21px;background:#fff;border:1px solid #dce9d9;border-radius:17px;box-shadow:0 5px 20px rgba(14,61,36,.05);text-align:right}
+ body[data-page="home"] .roma-motion-mobile-copy .eyebrow{display:block;color:#298457;font-size:11px;font-weight:800;letter-spacing:.06em}
+ body[data-page="home"] .roma-motion-mobile-copy h2{color:#123e30;font-size:clamp(25px,7.2vw,36px);line-height:1.35;margin:9px 0 8px}
+ body[data-page="home"] .roma-motion-mobile-copy h2 em{color:#21834e;font-style:normal}
+ body[data-page="home"] .roma-motion-mobile-copy p{color:#617969;font-size:12px;line-height:1.8;margin:0}
+ body[data-page="home"] .roma-motion-mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}
+ body[data-page="home"] .roma-motion-mobile-actions .btn{min-height:44px;padding:10px 7px;border-radius:10px;text-align:center;justify-content:center;font-size:12px;white-space:normal;gap:5px}
+}
+@media(max-width:370px){body[data-page="home"] .roma-motion-mobile-actions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){body[data-page="home"] .roma-motion-image{display:none}body[data-page="home"] .roma-motion-poster{display:block}}
