@@ -52,3 +52,6 @@ document.addEventListener('click',e=>{
 
 /* Align the legacy root homepage KONN brand tile with the supplied official logo. */
 (()=>{function fixKonn(){document.querySelectorAll('.brand-logo-card.brand-konn img').forEach(img=>{const src=img.getAttribute('src')||'';if(!src.includes('konn-logo.png')){img.src='/assets.7903/brands/konn-logo.png?v=20261105-correct';img.alt='KONN';img.style.cssText='width:min(100%,150px);height:68px;object-fit:contain;mix-blend-mode:normal';}});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixKonn,{once:true});else fixKonn();})();
+
+/* ROMA_KONN_GLASS_LOADER_V1: feature KONN 330ml glass cartons in homepage & catalog. */
+(()=>{const path=location.pathname;if(!(/\/catalog\/?$/i.test(path)||path==='/'||/\/business\/index\.html$/i.test(path)))return;const script=document.createElement('script');script.src='/business/assets/konn-glass.js?v=20261105-g1';document.head.appendChild(script);})();
