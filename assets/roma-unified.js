@@ -49,3 +49,6 @@ document.addEventListener('click',e=>{
 
 /* ROMA_BRAND_FILTER_LOADER_V2: replace prior category icons with brand marks. */
 (()=>{const s=document.createElement('script');s.src='/business/assets/roma-brand-filter.js?v=20261105-b2';s.defer=true;document.head.appendChild(s);})();
+
+/* Align the legacy root homepage KONN brand tile with the supplied official logo. */
+(()=>{function fixKonn(){document.querySelectorAll('.brand-logo-card.brand-konn img').forEach(img=>{const src=img.getAttribute('src')||'';if(!src.includes('konn-logo.png')){img.src='/assets.7903/brands/konn-logo.png?v=20261105-correct';img.alt='KONN';img.style.cssText='width:min(100%,150px);height:68px;object-fit:contain;mix-blend-mode:normal';}});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixKonn,{once:true});else fixKonn();})();
