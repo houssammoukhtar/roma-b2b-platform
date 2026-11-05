@@ -1,7 +1,7 @@
 
 /* ROMA_BRAND_LOGO_FILTER_V2: lightweight logo-based navigation; reuses official catalog brand GET filters. */
 (()=>{'use strict';
-const logos={"sante":"https://cdn.salla.sa/pQdzXB/psgD2X2p87r7GVkRS6MTatwdpJ2NrmcWXh09opxi.png","konn":"/business/assets/konn-wordmark.svg?v=20261105-b1","oggi":"https://cdn.salla.sa/pQdzXB/bJ7kFMklLfhj4zM2yhqaDpkIS4oyPVuMgizuPqqQ.jpg","holy":"https://cdn.salla.sa/pQdzXB/ylHeTXpeD1ADvRuoxrEZiERffIfYERPwfACH1THh.jpg","ponca":"https://cdn.salla.sa/pQdzXB/aqoLUXzN7zjYBup0bELdsLUtgZAkKlFhzywC9wv4.png","yummy":"https://cdn.salla.sa/pQdzXB/R3bpnCiW8NnLsncTA5Qu4BPB6uqmzgq0aKv7h5NE.jpg","roma":"/assets.7903/branding/roma-group-logo.png"};
+const logos={"sante":"https://cdn.salla.sa/pQdzXB/psgD2X2p87r7GVkRS6MTatwdpJ2NrmcWXh09opxi.png","konn":"/assets.7903/brands/konn-logo.png?v=20261105-correct","oggi":"https://cdn.salla.sa/pQdzXB/bJ7kFMklLfhj4zM2yhqaDpkIS4oyPVuMgizuPqqQ.jpg","holy":"https://cdn.salla.sa/pQdzXB/ylHeTXpeD1ADvRuoxrEZiERffIfYERPwfACH1THh.jpg","ponca":"https://cdn.salla.sa/pQdzXB/aqoLUXzN7zjYBup0bELdsLUtgZAkKlFhzywC9wv4.png","yummy":"https://cdn.salla.sa/pQdzXB/R3bpnCiW8NnLsncTA5Qu4BPB6uqmzgq0aKv7h5NE.jpg","roma":"/assets.7903/branding/roma-group-logo.png"};
 const t={ar:['تصفّح العلامات التجارية','اختر البراند لعرض منتجاته'],en:['Browse brands','Tap a logo to filter'],fr:['Parcourir les marques','Choisissez une marque'],de:['Marken entdecken','Marke auswählen'],es:['Explorar marcas','Elige una marca'],ur:['برانڈ منتخب کریں','ایک برانڈ منتخب کریں']};
 function mount(){
  const form=document.querySelector('.site-shell .filters form'),filter=form?.closest('.filters');
