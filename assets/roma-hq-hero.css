@@ -1,0 +1,142 @@
+/* ROMA B2B HQ HERO — 2026-11-05
+   Replaces 832px raster GIF with original 920px+ transparent product imagery,
+   vector/HTML typography and GPU-friendly independent motion. */
+html[lang="ar"] body[data-page="home"] .roma-hq-frame {
+  --hq-light:#b9f475;
+  --hq-shadow:rgba(0,28,21,.35);
+  position:relative;isolation:isolate;display:grid;
+  grid-template-columns:52% 48%;direction:ltr;
+  width:100%;min-height:650px;overflow:hidden;border-radius:26px;
+  border:1px solid #236d4b;
+  background:
+    radial-gradient(circle at 31% 50%,rgba(91,199,128,.48) 0%,rgba(40,137,95,.3) 25%,transparent 58%),
+    radial-gradient(circle at 75% 32%,rgba(32,129,83,.34),transparent 57%),
+    linear-gradient(115deg,#104e39 0%,#06432f 39%,#062f24 100%);
+  box-shadow:0 23px 55px rgba(8,64,36,.17);
+}
+.roma-hq-frame::before{
+  content:"";position:absolute;width:800px;height:800px;border-radius:50%;
+  top:-16%;left:-12%;z-index:-1;
+  border:1px solid rgba(198,255,198,.09);
+  box-shadow:0 0 0 75px rgba(177,242,174,.026),
+             0 0 0 170px rgba(191,255,190,.022);
+}
+.roma-hq-products{position:relative;min-width:0;min-height:0;overflow:visible;z-index:1}
+.roma-hq-halo{position:absolute;left:5%;top:7%;width:90%;height:83%;border-radius:50%;background:radial-gradient(ellipse,rgba(147,228,151,.31),rgba(65,162,116,.10) 56%,transparent 74%);filter:blur(10px)}
+.roma-hq-platform{position:absolute;left:4%;bottom:10%;width:91%;height:19%;border-radius:50%;background:radial-gradient(ellipse at 52% 23%,#fffcdf 0%,#e5e3c9 51%,#a8bba0 88%);transform:perspective(350px) rotateX(21deg);box-shadow:0 31px 25px rgba(0,30,17,.28),0 12px 0 -3px #d3ddbd,0 21px 0 -4px #9eb69c;z-index:2}
+.roma-hq-ingredient{position:absolute;z-index:3;will-change:transform;pointer-events:none}
+.roma-hq-leaf{display:block;width:25px;height:14px;border-radius:0 100% 0 100%;background:linear-gradient(135deg,#bef55e 7%,#448d38 92%);filter:drop-shadow(0 4px 4px #043d2780)}
+.roma-hq-leaf.leaf-a{left:15%;top:21%;transform:rotate(-18deg);animation:roma-leaf-a 6.8s ease-in-out infinite}
+.roma-hq-leaf.leaf-b{left:75%;top:18%;transform:rotate(28deg);animation:roma-leaf-b 5.8s ease-in-out infinite .9s}
+.roma-hq-leaf.leaf-c{left:86%;top:43%;width:19px;animation:roma-leaf-a 7.5s ease-in-out infinite 1.6s}
+.roma-hq-leaf.leaf-d{left:25%;top:72%;width:18px;animation:roma-leaf-b 7s ease-in-out infinite .2s}
+.roma-hq-citrus{width:78px;left:9%;top:12%;filter:drop-shadow(0 10px 9px #042b1b60);animation:roma-citrus 9s ease-in-out infinite}
+.roma-hq-tomato{width:48px;right:8%;top:29%;filter:drop-shadow(0 9px 9px #042b1b70);animation:roma-tomato 6.5s ease-in-out infinite .5s}
+.roma-hq-product{position:absolute;object-fit:contain;height:auto;width:auto;max-width:none;z-index:4;filter:drop-shadow(0 24px 17px rgba(0,31,20,.35));transform-origin:50% 80%;will-change:transform}
+.roma-hq-product.konn{height:62%;left:0%;bottom:15%;z-index:5;transform:rotate(-8deg);animation:roma-float-konn 7s ease-in-out infinite}
+.roma-hq-product.sante{height:78%;left:19%;bottom:12%;z-index:6;transform:rotate(-3deg);animation:roma-float-sante 7.5s ease-in-out infinite -.7s}
+.roma-hq-product.oggi{height:67%;left:51%;bottom:16%;z-index:5;transform:rotate(5deg);animation:roma-float-oggi 6.9s ease-in-out infinite -1.3s}
+.roma-hq-product.sauce{width:37%;left:59%;bottom:11%;z-index:6;transform:rotate(2deg);animation:roma-float-sauce 7.9s ease-in-out infinite -2s}
+.roma-hq-copy{position:relative;z-index:8;direction:rtl;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:right;padding:54px 55px 55px 6px;min-width:0;color:white}
+.roma-hq-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px;font-family:Inter,Tajawal,sans-serif;font-weight:800;letter-spacing:1.15px;font-size:12px;color:#c3f8be}
+.roma-hq-eyebrow::before{content:"";width:27px;height:2px;background:#a5dc75}
+.roma-hq-wordmark{display:flex;align-items:center;gap:14px;margin-bottom:21px;font-size:13px;font-weight:800;color:#f5fff8}
+.roma-hq-wordmark .roma-word{font-family:Inter,Arial,sans-serif;letter-spacing:-2px;font-size:30px;font-weight:900;line-height:.9;color:#fff}
+.roma-hq-wordmark .brand-bar{height:24px;width:1px;background:#a9e6c050}
+.roma-hq-wordmark small{font-family:Inter,Arial,sans-serif;font-size:9px;letter-spacing:1.4px;color:#c8e7d0;display:block;margin-top:3px;text-align:right}
+.roma-hq-copy h1{font-family:Tajawal,Segoe UI,Tahoma,sans-serif!important;color:#f8fff8!important;font-size:clamp(36px,3.8vw,58px)!important;font-weight:800!important;line-height:1.24!important;letter-spacing:-.75px!important;margin:0 0 21px!important;text-wrap:balance}
+.roma-hq-copy h1 em{font-style:normal;color:var(--hq-light)!important}
+.roma-hq-copy p{color:#d4ebe0;font-size:clamp(13px,1.28vw,17px);font-weight:500;line-height:1.8;margin:0;max-width:510px}
+.roma-hq-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px;width:100%}
+.roma-hq-actions .roma-hq-button{display:inline-flex;justify-content:center;align-items:center;min-height:53px;gap:9px;padding:0 22px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none!important;white-space:nowrap;transition:transform .2s,box-shadow .2s,background .2s}
+.roma-hq-actions .roma-hq-button:hover{transform:translateY(-2px)}
+.roma-hq-actions .roma-hq-button:focus-visible{outline:3px solid #d6ffb4;outline-offset:3px}
+.roma-hq-button.primary{background:#218954;color:white;border:1px solid #36a568;box-shadow:0 5px 16px #031d1440}
+.roma-hq-button.primary:hover{background:#2ca266;color:white}
+.roma-hq-button.secondary{background:#f4fbf3;color:#0e4934;border:1px solid #d3e6d0}
+.roma-hq-button.secondary:hover{background:white;color:#0e4934}
+.roma-hq-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.roma-hq-proofs{display:flex;flex-wrap:wrap;gap:14px;margin-top:37px;font-size:11px;color:#d5eddf;font-weight:700;line-height:1.35}
+.roma-hq-proofs span{display:inline-flex;align-items:center;gap:7px;border-left:1px solid #a8d7bb3c;padding-left:12px}
+.roma-hq-proofs span:last-child{border-left:0}
+.roma-hq-proofs svg{width:19px;height:19px;fill:none;stroke:#b9f0cb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@keyframes roma-float-konn{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-11px) rotate(-6deg)}}
+@keyframes roma-float-sante{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(-1deg)}}
+@keyframes roma-float-oggi{0%,100%{transform:translateY(0) rotate(5deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes roma-float-sauce{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-7px) rotate(0deg)}}
+@keyframes roma-leaf-a{0%,100%{transform:translate(0,0) rotate(-18deg)}50%{transform:translate(14px,-21px) rotate(20deg)}}
+@keyframes roma-leaf-b{0%,100%{transform:translate(0,0) rotate(28deg)}50%{transform:translate(-20px,13px) rotate(-17deg)}}
+@keyframes roma-citrus{0%,100%{transform:translate(0,0) rotate(-17deg)}50%{transform:translate(13px,-17px) rotate(15deg)}}
+@keyframes roma-tomato{0%,100%{transform:translate(0,0) rotate(12deg)}50%{transform:translate(-10px,-20px) rotate(-12deg)}}
+@media(max-width:1230px){
+ html[lang="ar"] body[data-page="home"] .roma-hq-frame{min-height:580px}
+ .roma-hq-copy{padding:42px 38px 43px 5px}
+ .roma-hq-proofs{gap:9px;font-size:10px}
+ .roma-hq-proofs span{padding-left:7px}
+ .roma-hq-actions .roma-hq-button{padding-inline:17px}
+}
+@media(max-width:990px){
+ html[lang="ar"] body[data-page="home"] .roma-hq-frame{min-height:500px;grid-template-columns:49% 51%}
+ .roma-hq-copy{padding:35px 24px 30px 5px}
+ .roma-hq-copy h1{font-size:clamp(28px,4.25vw,44px)!important}
+ .roma-hq-eyebrow{font-size:9px;margin-bottom:10px}
+ .roma-hq-wordmark{margin-bottom:13px}
+ .roma-hq-actions{gap:8px;margin-top:17px}
+ .roma-hq-actions .roma-hq-button{min-height:44px;font-size:11px;padding-inline:12px}
+ .roma-hq-proofs{margin-top:20px}
+}
+@media(max-width:760px){
+ html[lang="ar"] body[data-page="home"] .hero.roma-gif-enabled{padding:14px 0 12px}
+ html[lang="ar"] body[data-page="home"] .roma-hq-frame{
+   display:flex;flex-direction:column;min-height:0;border-radius:17px;
+   background:radial-gradient(circle at 49% 24%,#317e57 0%,#104b37 38%,#073325 76%)}
+ .roma-hq-frame::before{left:3%;top:-38%;width:94%;height:450px}
+ .roma-hq-products{order:0;width:100%;height:325px;flex:0 0 325px}
+ .roma-hq-copy{order:1;width:100%;padding:4px 22px 27px;align-items:center;text-align:center}
+ .roma-hq-eyebrow{display:none}
+ .roma-hq-wordmark{display:none}
+ .roma-hq-copy h1{font-size:clamp(28px,8vw,41px)!important;line-height:1.2!important;margin:0 0 9px!important}
+ .roma-hq-copy p{font-size:12px;line-height:1.65;max-width:360px}
+ .roma-hq-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:17px}
+ .roma-hq-actions .roma-hq-button{min-height:46px;font-size:12px;padding-inline:9px;white-space:normal}
+ .roma-hq-proofs{justify-content:center;gap:7px;margin-top:18px;font-size:9px}
+ .roma-hq-proofs span{padding-left:7px}
+ .roma-hq-proofs span:first-child{display:none}
+ .roma-hq-platform{bottom:13%;height:22%}
+ .roma-hq-product.konn{height:65%;left:4%;bottom:18%}
+ .roma-hq-product.sante{height:79%;left:23%;bottom:16%}
+ .roma-hq-product.oggi{height:66%;left:53%;bottom:17%}
+ .roma-hq-product.sauce{width:33%;left:61%;bottom:14%}
+ .roma-hq-citrus{width:53px;top:10%}
+ .roma-hq-tomato{width:35px}
+}
+@media(max-width:400px){
+ .roma-hq-products{height:284px;flex-basis:284px}
+ .roma-hq-product.konn{left:2%}
+ .roma-hq-product.sante{left:19%}
+ .roma-hq-product.oggi{left:49%}
+ .roma-hq-product.sauce{left:59%}
+ .roma-hq-copy{padding:0 16px 24px}
+ .roma-hq-proofs span:last-child{display:none}
+ .roma-hq-actions .roma-hq-button{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ .roma-hq-frame *{animation:none!important;transition:none!important}
+}
+html:not([lang="ar"]) body[data-page="home"] .roma-motion-banner{display:none}
+html:not([lang="ar"]) body[data-page="home"] .roma-original-hero{display:block}
+
+/* High-resolution original (uncropped) product images need larger CSS boxes. */
+.roma-hq-product.konn{height:72%;left:-5%;bottom:12%}
+.roma-hq-product.oggi{height:77%;left:43%;bottom:13%}
+.roma-hq-product.sauce{width:43%;left:55%;bottom:11%}
+@media(max-width:760px){
+ .roma-hq-product.konn{height:71%;left:0%;bottom:15%}
+ .roma-hq-product.oggi{height:75%;left:45%;bottom:14%}
+ .roma-hq-product.sauce{width:43%;left:55%;bottom:12%}
+}
+@media(max-width:400px){
+ .roma-hq-product.konn{left:-3%}
+ .roma-hq-product.oggi{left:42%}
+ .roma-hq-product.sauce{left:53%}
+}
